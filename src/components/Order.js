@@ -1,17 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { deleteMeal, updateOrder } from '../actions'
+import { startUpdateOrders, deleteOrder } from '../actions/orders'
 import { useHistory } from 'react-router-dom'
 
 const Order = (props) => {
 
     const history = useHistory()
-
+ 
     const handleDeleteMeal = (indexOfMealToDelete, mealPrice) => {
         props.deleteMeal(indexOfMealToDelete, mealPrice)
     }
 
-    const handleOrderReset = () => {
+    const handleOrderReset = (table) => {
+        props.deleteOrder(table)
         props.updateOrder({
             table: null,
             meals: [],
@@ -19,6 +21,12 @@ const Order = (props) => {
         })
 
         history.push('/home')
+    }
+
+    const handleUpdateOrders = () => {
+        props.startUpdateOrders(props.order, history)
+        handleOrderReset()
+       
     }
 
     return (
@@ -40,8 +48,8 @@ const Order = (props) => {
                 )
             })}
             <p>Ukupna cijena: {props.order.totalPrice} kn</p>
-            <button onClick={handleOrderReset}>Resetiraj narudžbu</button>
-            <button>Pošalji narudžbu</button>
+            <button onClick={() => {handleOrderReset(props.order.table)}}>Obriši narudžbu i povratak</button>
+            <button disabled={props.order.totalPrice === 0} onClick={handleUpdateOrders}>Sačuvaj narudžbu</button>
         </div>
     )
 }
@@ -52,4 +60,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { deleteMeal, updateOrder })(Order)
+export default connect(mapStateToProps, { deleteMeal, updateOrder, startUpdateOrders, deleteOrder })(Order)

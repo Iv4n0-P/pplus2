@@ -12,6 +12,25 @@ const Home = (props) => {
         props.history.push('/categories')
     }
 
+    const handleEditOrder = (order) => {
+        props.updateOrder(order)
+        props.history.push('/categories')
+    }
+
+    const renderOrders = () => {
+        return props.orders.map((order) => {
+            return (
+                <div>
+                    <p>Stol: {order.table}</p>
+                    <p>Cijena: {order.totalPrice} kn</p>
+                    <button>Izdavanje računa</button>
+                    <button onClick={() => {handleEditOrder(order)}}>Izmjeni narudžbu</button>
+                    <button>Pošalji narudžbu kuharu</button>
+                </div>
+            ) 
+        })
+    }
+
     return (
         <div>
         <button>Odjavi se</button>
@@ -29,10 +48,20 @@ const Home = (props) => {
                 <option value="9">9</option>
                 <option value="10">10</option>
             </select>
-            <button>Submit</button>
+            <button>Nastavi</button>
             </form>
+            <div>
+                <h3>Otvoreni stolovi</h3>
+                {renderOrders()}
+            </div>
         </div>
     )
 }
 
-export default connect(null, {updateOrder})(Home)
+const mapStateToProps = (state) => {
+    return {
+        orders: state.orders
+    }
+}
+
+export default connect(mapStateToProps, {updateOrder})(Home)
