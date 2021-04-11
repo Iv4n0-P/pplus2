@@ -1,19 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { deleteMeal, updateOrder } from '../actions'
-import { startUpdateOrders, deleteOrder } from '../actions/orders'
+import { startUpdateOrders } from '../actions/orders'
 import { useHistory } from 'react-router-dom'
 
 const Order = (props) => {
 
-    const history = useHistory()
+    const history = useHistory()  
  
     const handleDeleteMeal = (indexOfMealToDelete, mealPrice) => {
         props.deleteMeal(indexOfMealToDelete, mealPrice)
     }
 
-    const handleOrderReset = (table) => {
-        props.deleteOrder(table)
+    const handleOrderReset = () => {
         props.updateOrder({
             table: null,
             meals: [],
@@ -26,7 +25,6 @@ const Order = (props) => {
     const handleUpdateOrders = () => {
         props.startUpdateOrders(props.order, history)
         handleOrderReset()
-       
     }
 
     return (
@@ -39,17 +37,17 @@ const Order = (props) => {
 
                 return (
                     <div key={meal.id}>
-                        <button onClick={() => handleDeleteMeal(index, meal.price)}>x</button>
+                        <button disabled={meal.sent} onClick={() => handleDeleteMeal(index, meal.price)}>x</button>
                         <p>{meal.name} - {meal.type}</p>
                         <p>{meal.price}</p>
-                        <p>{meal.extras.toString()}</p>
+                        <p>{meal.extra.toString()}</p>
                         <p>{meal.minus.toString()}</p>
                     </div>
                 )
             })}
             <p>Ukupna cijena: {props.order.totalPrice} kn</p>
-            <button onClick={() => {handleOrderReset(props.order.table)}}>Obriši narudžbu i povratak</button>
-            <button disabled={props.order.totalPrice === 0} onClick={handleUpdateOrders}>Sačuvaj narudžbu</button>
+            <button onClick={handleOrderReset}>Odustani</button>
+            <button disabled={props.order.totalPrice === 0 || props.order.meals.findIndex(meal => meal.sent === false) === -1} onClick={handleUpdateOrders}>Pošalji narudžbu</button>
         </div>
     )
 }
@@ -60,4 +58,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { deleteMeal, updateOrder, startUpdateOrders, deleteOrder })(Order)
+export default connect(mapStateToProps, { deleteMeal, updateOrder, startUpdateOrders })(Order)

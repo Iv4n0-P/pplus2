@@ -26,7 +26,7 @@ const Meals = (props) => {
         <Order />
             <h1>Meals Component</h1>
             {renderMeals()}
-            <MealDetails meal={meal}/>
+            {Object.keys(meal).length !== 0 && <MealDetails setMeal={setMeal} meal={meal}/>}
         </div>
     )
 }

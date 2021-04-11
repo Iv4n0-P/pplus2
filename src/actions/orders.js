@@ -25,9 +25,18 @@ export const startUpdateOrders = (order, history) => {
 }
 
 export const updateOrders = (order, history) => {
+
+    //switchaj sent properti za svako jelo u meals arrayu
+    const updatedMeals = order.meals.map((meal) => {
+        return {...meal, sent: true}
+    })
+
+    //update single order   
+    const updatedOrder = {...order, meals: updatedMeals}
+
     return {
         type: 'UPDATE_ORDERS',
-        payload: order
+        payload: updatedOrder
     }
     
 }

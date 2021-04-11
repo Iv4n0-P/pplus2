@@ -9,7 +9,7 @@ const Login = (props) => {
 
     React.useEffect(() => {
         props.getMealCategories()
-    }, [])
+    }, [props])
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
