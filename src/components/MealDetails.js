@@ -50,7 +50,6 @@ const MealDetails = (props) => {
     return (
         <div>
             <h3>{props.meal.name}</h3>
-            <img src={props.meal.image} alt={props.meal.name} />
             <h5>{props.meal.price}</h5>
 
             <form onSubmit={onFormSubmit}>

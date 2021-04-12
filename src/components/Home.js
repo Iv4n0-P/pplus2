@@ -6,19 +6,25 @@ import { connect } from 'react-redux'
 const Home = (props) => {
 
     const [selectedTable, setSelectedTable] = React.useState(1)
-    //cosnt [ disabled, setDisabled ] = React.useState(false)
+    const [ disabled, setDisabled ] = React.useState(false)
 
     const onInputChange = (value) => {
         setSelectedTable(value)
-
-    const tables = props.orders.map((order) => {
-            return order.table
-    })
-
-    console.log(tables.findIndex((table) => {
-            table = selectedTable
-    }))
     }
+
+    React.useEffect(() => {
+        const tables = props.orders.map((order) => {
+            return order.table
+        })
+
+        if (tables.includes(selectedTable)) {
+            setDisabled(true)
+        } else {
+            setDisabled(false)
+        }
+
+    }, [selectedTable])
+
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
@@ -54,8 +60,8 @@ const Home = (props) => {
             <button>Odjavi se</button>
             <h3>Upiši stol</h3>
             <form onSubmit={handleOnSubmit}>
-                <input type="text" value={selectedTable} onChange={(e) => { onInputChange(e.target.value) }} />
-                <button>Kreiraj novu narudžbu</button>
+                <input type="text" value={selectedTable} onChange={(e) => {onInputChange(e.target.value)}} />
+                <button disabled={disabled}>{disabled ? 'Ovaj stol već ima otvorenu narudžbu' : 'Kreiraj novu narudžbu'}</button>
             </form>
             <div>
                 <h3>Otvoreni stolovi</h3>
