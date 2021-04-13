@@ -1,10 +1,20 @@
 export default (state = [], action) => {
     switch (action.type) {
-        case 'UPDATE_ORDERS':
+        case 'ADD_ORDER':
             return [...state, action.payload]
-        case 'REMOVE_ORDER':
-            return state.filter((order) => {return order.table !== action.payload})
-        default: 
-        return state
+        case 'DELETE_ORDER':
+            return state.filter((order) => {
+                return order.table !== action.table
+            })
+        case 'EDIT_ORDER':
+            return state.map((order) => {
+                if (order.table === action.table) {
+                    return {...order, ...action.payload}
+                } else {
+                    return order
+                }
+            })
+        default:
+            return state
     }
 }

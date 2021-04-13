@@ -1,7 +1,7 @@
 import React from 'react'
 import Login from './Login'
 import Home from './Home'
-import Categories from './Categories'
+import Menu from './Menu'
 import Meals from './Meals'
 import Order from './Order'
 import history from '../history'
@@ -14,9 +14,9 @@ const App = () => {
                 <div>
                     <Switch>
                         <Route path="/" component={Login} exact />
-                        <Route path="/home" component={Home} />
-                        <Route path="/categories" component={Categories} />
-                        <Route path="/meals/:id" component={Meals} />
+                        <Route path="/home/:user" component={Home} />
+                        <Route path="/menu/:table" component={Menu} />
+                        <Route path="/meals" component={Meals} />
                         <Route path="/order" component={Order} />
                     </Switch>
                 </div>

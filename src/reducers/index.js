@@ -1,12 +1,8 @@
 import { combineReducers } from 'redux'
-import categoriesReducer from './categoriesReducer'
-import orderReducer from './orderReducer'
-import mealsReducer from './mealsReducer'
 import ordersReducer from './ordersReducer'
+import menuReducer from './menuReducer'
 
 export default combineReducers({
-    categories: categoriesReducer,
-    order: orderReducer,
-    meals: mealsReducer,
+    menu: menuReducer,
     orders: ordersReducer
 })

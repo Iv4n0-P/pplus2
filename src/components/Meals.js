@@ -2,8 +2,12 @@ import React from 'react'
 import MealDetails from './MealDetails'
 import { connect } from 'react-redux'
 import Order from './Order'
+import * as QueryString from 'query-string'
 
 const Meals = (props) => {
+
+    const params = QueryString.parse(props.location.search)
+
     const [ meal, setMeal ] = React.useState({})
 
     const getMealDetails = (meal) => {
@@ -12,7 +16,7 @@ const Meals = (props) => {
 
     const renderMeals = () => {
 
-        return props.meals[props.match.params.id].map((meal) => {
+        return props.menu[params.id].meals.map((meal) => {
             return (
                 <div key={meal.id}>
                     <p style={{cursor: 'pointer'}} onClick={() => {getMealDetails(meal)}}>{meal.name}</p>
@@ -23,17 +27,17 @@ const Meals = (props) => {
 
     return (
         <div>
-        <Order />
+        <Order table={params.table}/>
             <h1>Meals Component</h1>
             {renderMeals()}
-            {Object.keys(meal).length !== 0 && <MealDetails setMeal={setMeal} meal={meal}/>}
+            {Object.keys(meal).length !== 0 && <MealDetails setMeal={setMeal} table={params.table} meal={meal}/>}
         </div>
     )
 }
 
 const mapStateToProps = (state) => {
     return {
-        meals: state.meals
+        menu: state.menu
     }
 }
 

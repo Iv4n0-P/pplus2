@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addMeal } from '../actions'
+import { addMeal } from '../actions/orders'
 import { useHistory } from 'react-router-dom'
 
 const MealDetails = (props) => {
@@ -32,7 +32,7 @@ const MealDetails = (props) => {
 
     const onFormSubmit = (e) => {
         e.preventDefault()
-
+        
         props.addMeal({
             id: props.meal.id,
             name: props.meal.name,
@@ -41,10 +41,10 @@ const MealDetails = (props) => {
             extra: extras,
             minus: minuses,
             sent: false
-        })
+        }, props.table)
 
         resetAll()
-        history.push('/categories')
+        history.push(`/menu/${props.table}`)
     }
 
     return (

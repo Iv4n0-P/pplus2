@@ -1,11 +1,12 @@
 import React from 'react'
-import { updateOrder } from '../actions'
-import { deleteOrder } from '../actions/orders'
+import { startAddOrder, deleteOrder } from '../actions/orders'
 import { connect } from 'react-redux'
 
 const Home = (props) => {
 
-    const [selectedTable, setSelectedTable] = React.useState(1)
+    const user = props.match.params.user
+
+    const [ selectedTable, setSelectedTable ] = React.useState('1')
     const [ disabled, setDisabled ] = React.useState(false)
 
     const onInputChange = (value) => {
@@ -28,17 +29,14 @@ const Home = (props) => {
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
-        props.updateOrder({ table: selectedTable })
-        props.history.push('/categories')
+        props.startAddOrder(props.history, {user, table: selectedTable, meals: [], totalPrice: 0})
     }
 
-    const handleEditOrder = (order) => {
-        props.updateOrder(order)
-        props.history.push('/categories')
+    const handleEditOrder = (table) => {
+        props.history.push(`/menu/${table}`)
     }
 
     const finishOrder = (order) => {
-        console.log(order)
         props.deleteOrder(order.table)
     }
 
@@ -48,7 +46,7 @@ const Home = (props) => {
                 <div key={order.table}>
                     <p>Stol: {order.table}</p>
                     <p>Cijena: {order.totalPrice} kn</p>
-                    <button onClick={() => { handleEditOrder(order) }}>Dodaj jela u narudžbu</button>
+                    <button onClick={() => { handleEditOrder(order.table) }}>Dodaj jela u narudžbu</button>
                     <button onClick={() => { finishOrder(order) }}>Zaključi narudžbu i izdaj računa</button>
                 </div>
             )
@@ -77,4 +75,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { updateOrder, deleteOrder })(Home)
+export default connect(mapStateToProps, { startAddOrder, deleteOrder })(Home)

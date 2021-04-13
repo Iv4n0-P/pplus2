@@ -2,18 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Order from './Order'
 
-const Categories = (props) => {
+const Menu = (props) => {
 
     const handleOnClick = (id) => {
-        props.history.push(`/meals/${id}`)
+        props.history.push(`/meals?id=${id}&table=${props.match.params.table}`)
     }
 
     const renderCategories = () => {
-
-        return props.categories.map((category) => {
+        
+        return props.menu.map((menuItem) => {
             return (
-                <div key={category.id}>
-                <p onClick={() => {handleOnClick(category.id)}} style={{cursor: 'pointer'}}>{category.name}</p>
+                <div key={menuItem.id}>
+                <p onClick={() => {handleOnClick(menuItem.id)}} style={{cursor: 'pointer'}}>{menuItem.name}</p>
                 </div>
             )
         })
@@ -21,7 +21,7 @@ const Categories = (props) => {
 
     return (
         <div>
-        <Order />
+        <Order table={props.match.params.table}/>
             <h3>Odaberi kategoriju</h3>
             {renderCategories()}
         </div>
@@ -30,8 +30,8 @@ const Categories = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        categories: state.categories
+        menu: state.menu
     }
 }
 
-export default connect(mapStateToProps)(Categories)
+export default connect(mapStateToProps)(Menu)
