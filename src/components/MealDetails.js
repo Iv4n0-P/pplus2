@@ -48,36 +48,39 @@ const MealDetails = (props) => {
     }
 
     return (
-        <div>
-            <h3>{props.meal.name}</h3>
-            <h5>{props.meal.price}</h5>
+        <div className="meal-wrap">
+            <h3 className="meal-title">{props.meal.name}</h3>
+            <h5>{props.meal.price} kn</h5>
 
             <form onSubmit={onFormSubmit}>
-                <label>
+                <label className="label">
                     <input
                         type="radio"
                         value="predjelo"
                         checked={mealType === 'predjelo'}
                         onChange={onValueChange}
                     />
+                    <span class="checkmark"></span>
                     Predjelo
                 </label>
-                <label>
+                <label className="label">
                     <input
                         type="radio"
                         value="glavno"
                         checked={mealType === 'glavno'}
                         onChange={onValueChange}
                     />
+                    <span class="checkmark"></span>
                     Glavno jelo
                 </label>
-                <label>
+                <label className="label">
                     <input
                         type="radio"
                         value="desert"
                         checked={mealType === 'desert'}
                         onChange={onValueChange}
                     />
+                    <span class="checkmark"></span>
                     Desert
                 </label>
 
@@ -91,25 +94,17 @@ const MealDetails = (props) => {
                     <li data-id="Ajvar" className="extra" onClick={(e) => { addExtras(e.currentTarget.dataset.id) }}>Ajvar</li>
                 </ul>
 
-                <h5>Oduzmi</h5>
-                <ul>
-                    <li data-id="Sir" className="extra" onClick={(e) => { addMinuses(e.currentTarget.dataset.id) }}>Sir</li>
-                    <li data-id="Šunka" className="extra" onClick={(e) => { addMinuses(e.currentTarget.dataset.id) }}>Šunka</li>
-                    <li data-id="Gljive" className="extra" onClick={(e) => { addMinuses(e.currentTarget.dataset.id) }}>Gljive</li>
-                    <li data-id="Origano" className="extra" onClick={(e) => { addMinuses(e.currentTarget.dataset.id) }}>Origano</li>
-                    <li data-id="Pomodora" className="extra" onClick={(e) => { addMinuses(e.currentTarget.dataset.id) }}>Pomodora</li>
-                    <li data-id="Panceta" className="extra" onClick={(e) => { addMinuses(e.currentTarget.dataset.id) }}>Panceta</li>
-                </ul>
-
+                <div className="meal-summary">
                 <h5>Status</h5>
-                <p>Naziv jela: {props.meal.name}</p>
-                <p>Tip jela: {mealType}</p>
-                <p>Extras: {extras.toString()}</p>
-                <p>Minus: {minuses.toString()}</p>
-                <p>Cijena: {props.meal.price}</p>
-                <button>Dodaj u narudžbu</button>
+                <p>Naziv jela: <span>{props.meal.name}</span></p>
+                <p>Tip jela: <span>{mealType}</span></p>
+                <p>Extras: <span>{extras.toString()}</span></p>
+                <p>Cijena: <span>{props.meal.price}</span></p>
+                <button className="btn-posalji margin-top">Dodaj u narudžbu</button>
+                </div>
+                
             </form>
-            <button onClick={resetAll}>Odustani od jela</button>
+            <button className="btn-odustani" onClick={resetAll}>Odustani od jela</button>
         </div>
     )
 }

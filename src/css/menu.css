@@ -1,0 +1,40 @@
+.menu-wrap {
+    min-width: 100%;
+    height: 100%
+}
+
+.menu-items-wrap {
+    min-width: 100%;
+    width: 100%;
+    max-width: 100%;
+}
+
+.menu-box {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 5px;
+    background-color: rgba(255,255,255,0.1);
+    padding: 5px 10px;
+    text-align: left;
+    border: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+}
+
+.menu-box:hover {
+    background-color: var(--primary);
+}
+
+.menu-box:hover p {
+    color: #111;
+}
+
+.menu-box p {
+    color: var(--primary);
+    font-weight: 300;
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}

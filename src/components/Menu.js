@@ -12,18 +12,20 @@ const Menu = (props) => {
         
         return props.menu.map((menuItem) => {
             return (
-                <div key={menuItem.id}>
-                <p onClick={() => {handleOnClick(menuItem.id)}} style={{cursor: 'pointer'}}>{menuItem.name}</p>
+                <div className="menu-box" key={menuItem.id} onClick={() => {handleOnClick(menuItem.id)}}>
+                <p>{menuItem.name}</p>
                 </div>
             )
         })
     }
 
     return (
-        <div>
+        <div className="menu-wrap">
         <Order table={props.match.params.table}/>
-            <h3>Odaberi kategoriju</h3>
-            {renderCategories()}
+        <h3 className="subtitle">Odaberi kategoriju</h3>
+           <div className="menu-items-wrap">
+           {renderCategories()}
+           </div> 
         </div>
     )
 }

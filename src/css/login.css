@@ -1,0 +1,118 @@
+.login-wrap input {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px 40px 10px 0;
+    background-color: rgba(0,0,0,.0);
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, .2);
+    display: block;
+    font-family: 'Playfair Display', serif;
+    color: var(--primary);
+}
+
+.login-wrap h3 span {
+    display: block;
+}
+
+.login-wrap input:focus {
+    outline: none;
+    border-bottom: 1px solid rgb(185, 141, 54, .4);
+    color: var(--primary);
+}
+
+.button-login {
+    font-family: 'Playfair Display', serif;
+    padding: 10px 35px;
+    display: block;
+    margin-top: 30px;
+    background-color: rgba(255, 255, 255, .0);
+    border: 1px solid var(--primary);
+    color: #999;
+    border-radius: 0px;
+}
+
+.login-wrap button:focus {
+    outline: none;
+}
+
+.login-wrap button:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.loading-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.load {
+    margin-top: 15px;
+    }
+
+    .loading-dot {
+        float: left;
+        width: 5px;
+        height: 5px;
+        margin: 0 3px;
+        background: var(--primary);
+      
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+      
+        opacity: 0;
+      
+        -webkit-box-shadow: 0 0 2px black;
+        -moz-box-shadow: 0 0 2px black;
+        -ms-box-shadow: 0 0 2px black;
+        -o-box-shadow: 0 0 2px black;
+        box-shadow: 0 0 2px black;
+      
+        -webkit-animation: loadingFade 1s infinite;
+        -moz-animation: loadingFade 1s infinite;
+        animation: loadingFade 1s infinite;
+    }
+    
+    .loading-dot:nth-child(1) {
+        -webkit-animation-delay: 0s;
+        -moz-animation-delay: 0s;
+        animation-delay: 0s;
+    }
+    
+    .loading-dot:nth-child(2) {
+        -webkit-animation-delay: 0.1s;
+        -moz-animation-delay: 0.1s;
+        animation-delay: 0.1s;
+    }
+    
+    .loading-dot:nth-child(3) {
+        -webkit-animation-delay: 0.2s;
+        -moz-animation-delay: 0.2s;
+        animation-delay: 0.2s;
+    }
+    
+    .loading-dot:nth-child(4) {
+        -webkit-animation-delay: 0.3s;
+        -moz-animation-delay: 0.3s;
+        animation-delay: 0.3s;
+    }
+    
+    @-webkit-keyframes loadingFade {
+        0% { opacity: 0; }
+        50% { opacity: 0.8; }
+        100% { opacity: 0; }
+    }
+    
+    @-moz-keyframes loadingFade {
+        0% { opacity: 0; }
+        50% { opacity: 0.8; }
+        100% { opacity: 0; }
+    }
+    
+    @keyframes loadingFade {
+        0% { opacity: 0; }
+        50% { opacity: 0.8; }
+        100% { opacity: 0; }
+    }

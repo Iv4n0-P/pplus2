@@ -1,3 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+@import './login.css';
+@import './home.css';
+@import './menu.css';
+@import './order.css';
+@import './meals.css';
+@import './meal.css';
+
+/*Global styles*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+}
+
+.bg {
+    background:linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url("../img/speacial-bg.jpg");
+    background-size: cover;
+    height: 100vh;
+    color: var(--terciary);  
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    padding: 30px;
+    color: white;
+}
+
+.title {
+    font-size: 42px;
+    color: var(--primary);
+}
+
+.subtitle {
+    opacity: .5;
+    font-size: 16px;
+    font-weight: 400;
+}
+
 .extra {
     cursor: pointer;
+}
+
+:root {
+    --primary: #b98d36;
+    --terciary: #282b2e;
+}
+
+.margin-top {
+    margin-top: 10px;
 }

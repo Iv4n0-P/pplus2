@@ -1,3 +1,5 @@
+import planplus from '../apis/planplus'
+
 export const addOrder = (order) => {
     return {
         type: 'ADD_ORDER',
@@ -67,7 +69,7 @@ export const deleteMeal = (table, indexOfMealToDelete, mealPrice) => {
 
 export const updateSentMeals = (table, history) => {
 
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
 
         const order = getState().orders.find((order) => { return order.table === table })
 
@@ -78,6 +80,55 @@ export const updateSentMeals = (table, history) => {
 
         //update single order   
         const updates = { ...order, meals: updatedMeals }
+
+        //preparing object for api
+        const orderForSend = {
+            "count": 1,
+            "next": null,
+            "previous": null,
+            "results": [
+                {
+                    "id": 1,
+                    "table": "4",
+                    "label": "21-000001",
+                    "payment_method": null,
+                    "issue_date": "2021-04-13T13:45:36.986244+02:00",
+                    "total": "266.00",
+                    "is_in_process": false,
+                    "is_closed": false,
+                    "is_deleted": false,
+                    "orderitem_set": [
+                        {
+                            "id": 1,
+                            "item": 8,
+                            "item_name": "Juha od rajčice s vrhnjem",
+                            "quantity": "3.00",
+                            "price": "29.00",
+                            "course": 1,
+                            "extras": [
+                                20
+                            ],
+                            "note": ""
+                        },
+                        {
+                            "id": 2,
+                            "item": 4,
+                            "item_name": "Biftek tartar za dvije osobe",
+                            "quantity": "1.00",
+                            "price": "149.00",
+                            "course": 2,
+                            "extras": [
+                                22
+                            ],
+                            "note": ""
+                        }
+                    ]
+                }
+            ]
+       }
+       
+
+        const { data } = await planplus.post('https://pp.cirrus.hr/hr/orders/api', order)
 
         dispatch(editOrder(table, updates))
         history.push(`/home/${order.user}`)

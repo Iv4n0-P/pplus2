@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 const App = () => {
     return (
-        <div>
+        <div className="bg">
             <Router history={history}>
                 <div>
                     <Switch>

@@ -1,0 +1,113 @@
+.meal-wrap {
+    font-family: 'Playfair Display', serif;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(40,43,46,1.0);
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    padding: 20px;
+}
+
+.meal-wrap p, 
+.meal-wrap li,
+.meal-wrap label {
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.meal-wrap label,
+.meal-wrap li {
+    color: #999;
+    text-transform: none;
+}
+
+.meal-wrap li {
+    list-style-type: none;
+}
+
+.meal-wrap span {
+    text-transform: none;
+    color: #999;
+}
+
+.meal-summary {
+    background-color: rgba(255,255,255,0.1);
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.meal-title {
+    color: var(--primary);
+}
+
+/* Customize the label (the container) */
+.label {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default radio button */
+  .label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+    border-radius: 50%;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .label:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the radio button is checked, add a blue background */
+  .label input:checked ~ .checkmark {
+    background-color: var(--primary);
+  }
+  
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the indicator (dot/circle) when checked */
+  .label input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the indicator (dot/circle) */
+  .label .checkmark:after {
+    top:4px;
+    left: 4px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: white;
+  }
