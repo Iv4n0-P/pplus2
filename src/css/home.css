@@ -45,8 +45,7 @@
 }
 
 .otvoreni-stolovi {
-    margin-top: 40px;
-    
+    margin-top: 40px;    
 }
 
 .otvoreni-stolovi-box {
@@ -76,7 +75,7 @@
     font-size: 22px;
 }
 
-.otvoreni-stolovi button {
+.otvoreni-stolovi-box-col2 button {
     cursor: pointer;
     border: 1px solid #999;
     padding: 5px 10px;
@@ -100,4 +99,23 @@
 
 .ovoreni-stolovi-box-col2 {
     width: 40%;
+}
+
+.closed-link {
+    cursor: pointer;
+    margin-top: 20px!important;
+    color: var(--primary)!important;
+    
+}
+
+.closed-link:hover {
+    text-decoration: underline;
+}
+
+.table {
+    cursor: pointer;
+}
+
+.table:hover {
+    text-decoration: underline;
 }

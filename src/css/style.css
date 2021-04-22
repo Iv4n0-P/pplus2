@@ -5,6 +5,8 @@
 @import './order.css';
 @import './meals.css';
 @import './meal.css';
+@import './details.css';
+@import './table.css';
 
 /*Global styles*/
 * {
@@ -53,4 +55,8 @@ h1, h2, h3, h4, h5 {
 
 .margin-top {
     margin-top: 10px;
+}
+
+.margin-bottom {
+    margin-bottom: 10px;
 }

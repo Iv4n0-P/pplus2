@@ -1,0 +1,99 @@
+.details-wrap {
+    background-color: rgba(40,43,46,1.0);
+    font-family: 'Playfair Display', serif;
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: all ease .2s;
+    box-shadow: 0px 2px 15px 2px #111;
+}
+
+.details-wrap:hover {
+    position: fixed;
+    bottom: 55vh;
+}
+
+.details-subtitle {
+    color: var(--primary);
+}
+
+.details-wrap p {
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.details-wrap span {
+    text-transform: none;
+    color: #999;
+}
+
+.details-price {
+    color: var(--primary);
+}
+
+.meal-title span {
+    text-transform: uppercase;
+    display: block;
+}
+
+.meal-title {
+    text-transform: none!important;
+}
+
+.tmp-extras {
+    word-wrap: break-word;
+    
+}
+
+.details-meal {
+    background-color: rgba(255,255,255,0.1);
+    position: relative;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.details-meal button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    padding: 3px 7px;
+    background-color: var(--primary);
+}
+
+.details-controls {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.btn-odustani {
+    margin-right: 10px;
+    padding: 5px 20px;
+    background-color: #999;
+    bdetails: none!important;
+    color: white;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.btn-posalji {
+    margin-right: 10px;
+    padding: 5px 20px;
+    background-color: var(--primary);
+    border: none!important;
+    color: white;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.order-total {
+    display: flex; 
+    align-items: center;
+}
