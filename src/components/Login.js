@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getCategories } from '../actions/menu'
+import { setExtras } from '../actions/extras'
 
 const Login = (props) => {
 
@@ -10,6 +11,7 @@ const Login = (props) => {
 
     React.useEffect(() => {
         props.getCategories()
+        props.setExtras()
     }, [])
 
     React.useEffect(() => {
@@ -58,4 +60,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { getCategories })(Login)
+export default connect(mapStateToProps, { getCategories, setExtras })(Login)

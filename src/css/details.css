@@ -97,3 +97,66 @@
     display: flex; 
     align-items: center;
 }
+
+.price-span {
+    color: var(--primary)!important;
+}
+
+.kolicina-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    min-width: 100%;
+}
+
+.kolicina-col1 {
+    width: 40%;
+}
+
+.kolicina-col2 {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    align-content: left;
+}
+
+.kolicina-col2 p {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #333;
+    cursor: pointer;
+}
+
+.kolicina-col2 p:last-child {
+    margin-left: 5px;
+}
+
+.textarea {
+    width: 100%;
+    height: 100px;
+    padding: 20px;
+    font-family: inherit;
+    background-color: rgba(0,0,0,.15);
+    color: #eee!important;
+}
+
+.textarea:focus {
+    outline: none;
+}
+
+.extra-price-span {
+    color: var(--primary)!important;
+}
+
+.x {
+    background-color: #333;
+    display: inline-block;
+    padding: 1px 5px;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 1.2;
+    border-radius: 180px;
+    margin-left: 10px;
+    cursor: pointer;
+}

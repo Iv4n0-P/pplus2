@@ -1,7 +1,7 @@
 import React from 'react'
-import { startAddOrder, deleteOrder } from '../actions/orders'
 import { connect } from 'react-redux'
 import planplus from '../apis/planplus'
+import { startUpdateOrder } from '../actions/order'
 
 const Home = (props) => {
 
@@ -25,7 +25,7 @@ const Home = (props) => {
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
-        props.startAddOrder(props.history, { user, table: selectedTable, meals: [], totalPrice: 0 })
+        props.startUpdateOrder(props.history, { user, table: selectedTable, meals: [], totalPrice: 0 })
     }
 
     const handleViewOrder = async (id) => {
@@ -87,4 +87,4 @@ const Home = (props) => {
     )
 }
 
-export default connect(null, { startAddOrder, deleteOrder })(Home)
+export default connect(null, { startUpdateOrder })(Home)

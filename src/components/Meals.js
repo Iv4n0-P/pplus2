@@ -10,18 +10,11 @@ const Meals = (props) => {
     const id = Number(params.id)
     const menuItem = props.menu.find((menuItem) => {return menuItem.id === id})
 
-    const [ meal, setMeal ] = React.useState({})
-
-    const getMealDetails = (meal) => {
-       setMeal(meal)
-    }
 
     const renderMeals = () => {
-        
-
-        return menuItem.meals.map((meal) => {
+        return menuItem.meals.map((meal, index) => {
             return (
-                <div onClick={() => {getMealDetails(meal)}} className="meals-box" key={meal.id}>
+                <div onClick={() => { props.history.push(`/meal?table=${params.table}&mealIndex=${index}&menuItemId=${menuItem.id}`)}} className="meals-box" key={meal.id}>
                     <p style={{cursor: 'pointer'}}>{meal.name}</p>
                 </div>
             )
@@ -34,7 +27,7 @@ const Meals = (props) => {
             <button className="button-home button-odjava" onClick={() => { props.history.goBack()}}>Povratak u meni</button>
             <h3 className="meal-name">{menuItem.name}</h3>
             {renderMeals()}
-            {Object.keys(meal).length !== 0 && <MealDetails setMeal={setMeal} table={params.table} meal={meal}/>}
+            
         </div>
     )
 }

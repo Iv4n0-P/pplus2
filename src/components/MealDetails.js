@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addMeal } from '../actions/orders'
+import { addMeal } from '../actions/order'
 import { useHistory } from 'react-router-dom'
+import * as QueryString from 'query-string'
 
 const MealDetails = (props) => {
 
@@ -9,7 +10,9 @@ const MealDetails = (props) => {
 
     const [mealType, setMealType] = React.useState('')
     const [extras, setExtras] = React.useState([])
-    const [minuses, setMinuses] = React.useState([])
+    const [quantity, setQuantity] = React.useState(1)
+    const [mealTotalPrice, setMealTotalPrice] = React.useState(props.meal.price)
+    const [note, setNote] = React.useState('')
 
     const onValueChange = (e) => {
         setMealType(e.target.value)
@@ -19,31 +22,43 @@ const MealDetails = (props) => {
         setExtras(extras.concat(extra))
     }
 
-    const addMinuses = (extra) => {
-        setMinuses(minuses.concat(extra))
+    const resetAll = () => {
+        history.goBack()
     }
 
-    const resetAll = () => {
-        props.setMeal({})
-        setMealType('')
-        setExtras([])
-        setMinuses([])
-    }
+    const handleDeleteExtra = (id) => {
+        const indexOfExtraToDelete = extras.findIndex((extra) => extra.id === id)
+        const extraToDelete = extras.find((extra) => extra.id === id)
+        
+        setExtras(extras.filter((extra,i) => {
+            return i !== indexOfExtraToDelete
+        }))
+
+        const total = mealTotalPrice * quantity
+        const price = extraToDelete.price * quantity
+        const finalPrice = total - price
+        setMealTotalPrice(finalPrice / quantity)
+    } 
 
     const onFormSubmit = (e) => {
         e.preventDefault()
         
+        const getCourseNum = () => {
+            if (mealType === 'predjelo') {return 1}    
+            if (mealType === 'glavno') {return 2}
+            if (mealType === 'desert') {return 3}
+        }
+
         props.addMeal({
-            id: props.meal.id,
-            name: props.meal.name,
-            price: props.meal.price,
-            type: mealType,
+            item: props.meal.id,
+            item_name: props.meal.name,
+            price: mealTotalPrice * quantity,
+            course: getCourseNum(),
             extra: extras,
-            minus: minuses,
-            sent: false
+            quantity,
+            note
         }, props.table)
 
-        resetAll()
         history.push(`/menu/${props.table}`)
     }
 
@@ -60,7 +75,7 @@ const MealDetails = (props) => {
                         checked={mealType === 'predjelo'}
                         onChange={onValueChange}
                     />
-                    <span class="checkmark"></span>
+                    <span className="checkmark"></span>
                     Predjelo
                 </label>
                 <label className="label">
@@ -70,7 +85,7 @@ const MealDetails = (props) => {
                         checked={mealType === 'glavno'}
                         onChange={onValueChange}
                     />
-                    <span class="checkmark"></span>
+                    <span className="checkmark"></span>
                     Glavno jelo
                 </label>
                 <label className="label">
@@ -80,33 +95,81 @@ const MealDetails = (props) => {
                         checked={mealType === 'desert'}
                         onChange={onValueChange}
                     />
-                    <span class="checkmark"></span>
+                    <span className="checkmark"></span>
                     Desert
                 </label>
 
                 <h5>Extras</h5>
-                <ul>
-                    <li data-id="Pomfrit" className="extra" onClick={(e) => { addExtras(e.currentTarget.dataset.id) }}>Pomfrit</li>
-                    <li data-id="Kajmak" className="extra" onClick={(e) => { addExtras(e.currentTarget.dataset.id) }}>Kajmak</li>
-                    <li data-id="Majoneza" className="extra" onClick={(e) => { addExtras(e.currentTarget.dataset.id) }}>Majoneza</li>
-                    <li data-id="Ketchup" className="extra" onClick={(e) => { addExtras(e.currentTarget.dataset.id) }}>Ketchup</li>
-                    <li data-id="Kapula" className="extra" onClick={(e) => { addExtras(e.currentTarget.dataset.id) }}>Kapula</li>
-                    <li data-id="Ajvar" className="extra" onClick={(e) => { addExtras(e.currentTarget.dataset.id) }}>Ajvar</li>
-                </ul>
+                <div className="extras">
+                    {props.extras.map((extra) => {
+                        return <p key={extra.id} onClick={() => {
+                            addExtras(extra)
+                            const currPrice = Number(mealTotalPrice) + Number(extra.price)
+                            setMealTotalPrice(currPrice)
+                        }} className="extra-btn">{extra.name}</p>
+                    })}
+                </div>
+
 
                 <div className="meal-summary">
-                <h5>Status</h5>
-                <p>Naziv jela: <span>{props.meal.name}</span></p>
-                <p>Tip jela: <span>{mealType}</span></p>
-                <p>Extras: <span>{extras.toString()}</span></p>
-                <p>Cijena: <span>{props.meal.price}</span></p>
-                <button className="btn-posalji margin-top">Dodaj u narudžbu</button>
+
+                    <p>Dodaci: <span>{extras.map((extra) => {
+                        return  (
+                            <div>
+                            <p>
+                            <span>
+                            {`${extra.name}(`}
+                            </span>
+                            <span className={Number(extra.price) !== 0 ? 'extra-price-span' : null}>
+                            {`+${extra.price}`}
+                            </span>
+                            <span>{')'}</span>
+                            <span onClick={() => {handleDeleteExtra(extra.id)}} className="x">&times;</span>
+                            </p>
+                            
+                            </div>
+                        )
+                    })}</span></p>
+                    <h5><span className="price-span">{mealTotalPrice * quantity}</span> <span>kn</span></h5>
+                    <div className="kolicina-wrap">
+                        <div className="kolicina-col1">
+                            <p>Količina: <span>{quantity}</span></p>
+                        </div>
+                        <div className="kolicina-col2">
+                            <p onClick={() => {
+                                setQuantity(quantity + 1)
+
+                            }}>+</p>
+                            <p onClick={() => {
+                                if (quantity !== 1) { return setQuantity(quantity - 1) }
+                                setQuantity(quantity)
+
+                            }}>-</p>
+                        </div>
+                    </div>
+
                 </div>
-                
+
+                <textarea className="textarea" placeholder="Unesite poruku (opcionalno)" value={note} onChange={(e) => {setNote(e.target.value)}}></textarea>
+
+
+                <button className="btn-posalji margin-top margin-bottom">Dodaj u narudžbu</button>
             </form>
             <button className="btn-odustani" onClick={resetAll}>Odustani od jela</button>
         </div>
     )
 }
 
-export default connect(null, { addMeal })(MealDetails)
+
+
+const mapStateToProps = (state, ownProps) => {
+    const params = QueryString.parse(ownProps.location.search)
+    const menuItemOfMeal = state.menu.find((menuItem) => { return menuItem.id === Number(params.menuItemId) })
+    const meal = menuItemOfMeal.meals[Number(params.mealIndex)]
+    return {
+        extras: state.extras,
+        meal
+    }
+}
+
+export default connect(mapStateToProps, { addMeal })(MealDetails)

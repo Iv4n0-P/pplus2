@@ -111,3 +111,18 @@
     border-radius: 50%;
     background: white;
   }
+
+  .extra-btn {
+    padding: 5px 15px;
+    background-color: rgba(0,0,0,0);
+    border: 1px solid #666;
+    color: white;
+    font-size: 12px;
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+
+  .extras {
+    display: flex;
+    flex-direction: row;
+  }

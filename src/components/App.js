@@ -7,6 +7,7 @@ import Order from './Order'
 import OrderDetails from './OrderDetails'
 import Closed from './Closed'
 import Table from './Table'
+import MealDetails from './MealDetails'
 import history from '../history'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
@@ -23,6 +24,7 @@ const App = () => {
                         <Route path="/order" component={Order} />
                         <Route path="/closed/:user" component={Closed} />
                         <Route path="/details" component={OrderDetails} />
+                        <Route path="/meal" component={MealDetails} />
                         <Route path="/table/:table" component={Table} />
                     </Switch>
                 </div>

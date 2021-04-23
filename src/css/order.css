@@ -1,7 +1,7 @@
 .order-wrap {
     background-color: rgba(40,43,46,1.0);
     font-family: 'Playfair Display', serif;
-    width: 100%;
+    width: 100vw;
     padding: 20px 30px;
     position: fixed;
     bottom: 92vh;
@@ -13,7 +13,9 @@
 
 .order-wrap:hover {
     position: fixed;
-    bottom: 55vh;
+    top: 0;
+    left: 0;
+    height: 90vh;
 }
 
 .order-subtitle {
