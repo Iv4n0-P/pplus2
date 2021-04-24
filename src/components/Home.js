@@ -25,7 +25,7 @@ const Home = (props) => {
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
-        props.startUpdateOrder(props.history, { user, table: selectedTable, meals: [], totalPrice: 0 })
+        props.startUpdateOrder(props.history, { user, table: selectedTable, orderitem_set: [], total: 0 })
     }
 
     const handleViewOrder = async (id) => {

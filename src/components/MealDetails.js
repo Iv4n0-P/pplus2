@@ -54,7 +54,7 @@ const MealDetails = (props) => {
             item_name: props.meal.name,
             price: mealTotalPrice * quantity,
             course: getCourseNum(),
-            extra: extras,
+            extras: extras.map((extra) => {return extra.id}),
             quantity,
             note
         }, props.table)
@@ -109,9 +109,7 @@ const MealDetails = (props) => {
                         }} className="extra-btn">{extra.name}</p>
                     })}
                 </div>
-
-
-                <div className="meal-summary">
+              <div className="meal-summary">
 
                     <p>Dodaci: <span>{extras.map((extra) => {
                         return  (

@@ -18,12 +18,12 @@ export const addMeal = (meal, table) => {
     return (dispatch, getState) => {
 
         const order = getState().order
-        const newMeals = order.meals.concat(meal)
-        const currTotalPrice = order.totalPrice
+        const newMeals = order.orderitem_set.concat(meal)
+        const currTotalPrice = order.total
         
         const updates = {
-            meals: newMeals,
-            totalPrice: currTotalPrice + Number(meal.price)
+            orderitem_set: newMeals,
+            total: currTotalPrice + Number(meal.price)
         }
         
         dispatch(updateOrder(updates))
@@ -35,15 +35,15 @@ export const deleteMeal = (indexOfMealToDelete, mealPrice) => {
     return (dispatch, getState) => {
 
         const order = getState().order
-        const currMeals = order.meals
-        const currTotalPrice = order.totalPrice
+        const currMeals = order.orderitem_set
+        const currTotalPrice = order.total
         const newMeals = currMeals.filter((meal, currMealIndex) => {
             return currMealIndex !== indexOfMealToDelete
         })
 
         const updates = {
-            meals: newMeals,
-            totalPrice: currTotalPrice - Number(mealPrice)
+            orderitem_set: newMeals,
+            total: currTotalPrice - Number(mealPrice)
         }
 
         dispatch(updateOrder(updates))
@@ -56,21 +56,9 @@ export const sendOrder = (history, user) => {
         const order = getState().order
         
         const orderForSend = {
+            "user": user,
             "table": order.table,
-            "orderitem_set": [
-            {
-            "item": 8,
-            "quantity": 1,
-            "price": 29.00,
-            "course": 1,
-            "extras": [20]
-            },
-            {
-            "item": 4,
-            "quantity": 2.00,
-            "price": 149.00,
-            "course": 2,
-            "extras": [22, 20]}]
+            "orderitem_set": order.orderitem_set
             }
             
             const data = await planplus.post('https://pp.doubleclick.hr/hr/orders/api/', orderForSend)
@@ -79,8 +67,8 @@ export const sendOrder = (history, user) => {
                 history.push(`/home/${order.user}`)
                 dispatch(updateOrder({
                     table: null,
-                    meals: [],
-                    totalPrice: null
+                    orderitem_set: [],
+                    total: null
                 }))
             }
     }
@@ -90,8 +78,8 @@ export const startDeleteOrder = (table, history, user) => {
     return (dispatch) => {
         dispatch(updateOrder({
             table: null,
-            meals: [],
-            totalPrice: null
+            orderitem_set: [],
+            total: null
         }))
         history.push(`/home/${user}`)
     }

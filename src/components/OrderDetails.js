@@ -1,6 +1,7 @@
 import React from 'react'
 import planplus from '../apis/planplus'
 import * as QueryString from 'query-string'
+import { connect } from 'react-redux'
 
 const OrderDetails = (props) => {
     const params = QueryString.parse(props.location.search)
@@ -42,7 +43,10 @@ const OrderDetails = (props) => {
                         <p><span>Količina: {Math.floor(meal.quantity)}</span></p>
                         <p className="meal-title">{meal.item_name}</p>
                         <p className="details-price">{meal.price} kn</p>
-                        {meal.extras && <p><span className="tmp-extras">Dodaci: {meal.extras.toString()}</span></p>}
+                        {meal.extras && <p><span className="tmp-extras">Dodaci: {meal.extras.map((extra) => {
+                            const extraFromState = props.extras.find((extraState) => {return extraState.id === extra})
+                            return `${extraFromState.name}, `
+                        })}</span></p>}
                         {meal.note && <p><span>Napomena: {meal.note}</span></p>}
                     </div>
                 )
@@ -79,4 +83,10 @@ const OrderDetails = (props) => {
     )
 }
 
-export default OrderDetails
+const mapStateToProps = (state) => {
+    return {
+        extras: state.extras
+    }
+}
+
+export default connect(mapStateToProps)(OrderDetails)
