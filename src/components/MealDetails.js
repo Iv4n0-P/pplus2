@@ -6,7 +6,7 @@ import * as QueryString from 'query-string'
 
 const MealDetails = (props) => {
     const params = QueryString.parse(props.location.search)
-   
+
 
     const history = useHistory()
 
@@ -15,19 +15,19 @@ const MealDetails = (props) => {
     })
 
     const getCourseName = (course) => {
-        if (course === 1) {return 'predjelo'}
-        if (course === 2) {return 'glavno'}
-        if (course === 3) {return 'desert'}
+        if (course === 1) { return 'predjelo' }
+        if (course === 2) { return 'glavno' }
+        if (course === 3) { return 'desert' }
     }
 
     let extrasToEdit = []
 
     if (mealToEdit) {
         mealToEdit.extras.forEach((extraId) => {
-            let tempExtrasArray = props.extras.filter((propsextra) => {return propsextra.id === extraId})
+            let tempExtrasArray = props.extras.filter((propsextra) => { return propsextra.id === extraId })
             extrasToEdit = [...extrasToEdit, ...tempExtrasArray]
         })
-    }  
+    }
 
     const [mealType, setMealType] = React.useState(getCourseName(mealToEdit ? mealToEdit.course : ''))
     const [extras, setExtras] = React.useState(mealToEdit ? extrasToEdit : [])
@@ -49,8 +49,8 @@ const MealDetails = (props) => {
     const handleDeleteExtra = (id) => {
         const indexOfExtraToDelete = extras.findIndex((extra) => extra.id === id)
         const extraToDelete = extras.find((extra) => extra.id === id)
-        
-        setExtras(extras.filter((extra,i) => {
+
+        setExtras(extras.filter((extra, i) => {
             return i !== indexOfExtraToDelete
         }))
 
@@ -58,15 +58,15 @@ const MealDetails = (props) => {
         const price = extraToDelete.price
         const finalPrice = total - price
         setMealTotalPrice(finalPrice)
-    } 
+    }
 
     const onFormSubmit = (e) => {
         e.preventDefault()
-        
+
         const getCourseNum = () => {
-            if (mealType === 'predjelo') {return 1}    
-            if (mealType === 'glavno') {return 2}
-            if (mealType === 'desert') {return 3}
+            if (mealType === 'predjelo') { return 1 }
+            if (mealType === 'glavno') { return 2 }
+            if (mealType === 'desert') { return 3 }
         }
 
         if (!mealToEdit) {
@@ -76,12 +76,13 @@ const MealDetails = (props) => {
                 currPrice: Number(mealTotalPrice),
                 price: props.meal.price,
                 course: getCourseNum(),
-                extras: extras.map((extra) => {return extra.id}),
+                extras: extras.map((extra) => { return extra.id }),
                 quantity: 1,
                 note,
                 tmp: {
                     mealIndex: params.mealIndex,
-                    menuItemId: params.menuItemId
+                    menuItemId: params.menuItemId,
+                    extrasTotal: mealToEdit ? mealTotalPrice - mealToEdit.price : mealTotalPrice - props.meal.price
                 }
             }, props.table)
         } else if (mealToEdit) {
@@ -92,18 +93,19 @@ const MealDetails = (props) => {
             })
 
             props.updateMeal(params.index, {
-            currPrice: Number(mealTotalPrice),
-            course: getCourseNum(),
-            extras: extras.map((extra) => {return extra.id}),
-            note,
-            tmp: {
-                mealIndex: params.mealIndex,
-                menuItemId: params.menuItemId
-            }
-        })
+                currPrice: Number(mealTotalPrice),
+                course: getCourseNum(),
+                extras: extras.map((extra) => { return extra.id }),
+                note,
+                tmp: {
+                    mealIndex: params.mealIndex,
+                    menuItemId: params.menuItemId,
+                    extrasTotal: mealToEdit ? mealTotalPrice - mealToEdit.price : mealTotalPrice - props.meal.price
+                }
+            })
         }
-        
-         
+
+
 
         history.push(`/menu/${props.table}`)
     }
@@ -111,7 +113,7 @@ const MealDetails = (props) => {
     return (
         <div className="meal-wrap">
             <h3 className="meal-title">{props.meal.name}</h3>
-            <h5>{props.meal.price} kn</h5>
+            <h5><span>Osnovna cijena: </span>{props.meal.price} kn</h5>
 
             <form onSubmit={onFormSubmit}>
                 <label className="label">
@@ -145,39 +147,44 @@ const MealDetails = (props) => {
                     Desert
                 </label>
 
-                <h5>Extras</h5>
-                <div className="extras">
-                    {props.extras.map((extra) => {
-                        return <p key={extra.id} onClick={() => {
-                            addExtras(extra)
-                            const currPrice = Number(mealTotalPrice) + Number(extra.price)
-                            setMealTotalPrice(currPrice)
-                        }} className="extra-btn">{extra.name}</p>
-                    })}
-                </div>
-              <div className="meal-summary">
+                <h5 className="margin-bottom">Extras</h5>
 
-                    <p><span>{extras.map((extra) => {
-                        return  (
+                <div>
+                    {props.extras.map((extra) => {
+                        const addedExtraIds = extras.map((extra) => extra.id) || []
+                        const testResult = addedExtraIds.find((id) => id === extra.id)
+                        return (
                             <div>
-                            <p>
-                            <span>
-                            {`${extra.name}(`}
-                            </span>
-                            <span className={Number(extra.price) !== 0 ? 'extra-price-span' : null}>
-                            {`+${extra.price}`}
-                            </span>
-                            <span>{')'}</span>
-                            <span onClick={() => {handleDeleteExtra(extra.id)}} className="x">&times;</span>
-                            </p>
-                            
+                                <label class="containerExtras">
+                                    <span>
+                                        {`${extra.name}(`}
+                                    </span>
+                                    <span className={Number(extra.price) !== 0 ? 'extra-price-span' : null}>
+                                        {`+${extra.price}`}
+                                    </span>
+                                    <span>{' kn)'}</span>
+                                    <input type="checkbox" checked={testResult} onChange={() => {
+                                        if (!testResult) {
+                                            addExtras(extra)
+                                            const currPrice = Number(mealTotalPrice) + Number(extra.price)
+                                            setMealTotalPrice(currPrice)
+                                        } else {
+                                            handleDeleteExtra(extra.id)
+                                        }
+                                    }} />
+                                    <span class="checkmarkExtra"></span>
+                                </label>
                             </div>
                         )
-                    })}</span></p>
-                    <h5><span className="price-span">{mealTotalPrice}</span> <span>kn</span></h5>
+                    })}
                 </div>
 
-                <textarea className="textarea" placeholder="Unesite poruku (opcionalno)" value={note} onChange={(e) => {setNote(e.target.value)}}></textarea>
+
+                <div className="meal-summary">
+                    <h5>Cijena sa dodacima: <span className="price-span">{mealTotalPrice}</span> <span>kn</span></h5>
+                </div>
+
+                <textarea className="textarea" placeholder="Unesite poruku (opcionalno)" value={note} onChange={(e) => { setNote(e.target.value) }}></textarea>
 
 
                 <button className="btn-posalji margin-top margin-bottom">{mealToEdit ? 'Sačuvaj izmjene' : 'Dodaj u narudžbu'}</button>
