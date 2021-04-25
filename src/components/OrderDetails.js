@@ -9,6 +9,12 @@ const OrderDetails = (props) => {
     const user = params.user
     const [ order, setOrder ] = React.useState({})
 
+    const getCourseName = (course) => {
+        if (course === 1) {return 'Predjelo'}
+        if (course === 2) {return 'Glavno jelo'}
+        if (course === 3) {return 'Desert'}
+    }
+
     React.useEffect(() => {
         const getOrder = async () => {
             const data = await planplus.get(`https://pp.doubleclick.hr/hr/orders/api/${id}`)             
@@ -40,14 +46,22 @@ const OrderDetails = (props) => {
                 
                 return (
                     <div key={Math.random() * meal.id} className="details-meal">
+                        <p className="meal-title">{meal.item_name} <span className="meal-type">- {getCourseName(meal.course)}</span></p>
                         <p><span>Količina: {Math.floor(meal.quantity)}</span></p>
-                        <p className="meal-title">{meal.item_name}</p>
                         <p className="details-price">{meal.price} kn</p>
-                        {meal.extras && <p><span className="tmp-extras">Dodaci: {meal.extras.map((extra) => {
+                        {meal.extras.length !== 0 && <p><span className="tmp-extras">{meal.extras.map((extra) => {
                             const extraFromState = props.extras.find((extraState) => {return extraState.id === extra})
-                            return `${extraFromState.name}, `
+                            return <p>
+                            <span>
+                            {`- ${extraFromState.name} (`}
+                            </span>
+                            <span className={Number(extraFromState.price) !== 0 ? 'extra-price-span' : null}>
+                            {`+${extraFromState.price}`}
+                            </span>
+                            <span>{' kn)'}</span>
+                            </p>
                         })}</span></p>}
-                        {meal.note && <p><span>Napomena: {meal.note}</span></p>}
+                        {meal.note && <p>Napomena:<span> {meal.note}</span></p>}
                     </div>
                 )
             })}

@@ -9,6 +9,8 @@ const Order = (props) => {
 
     const history = useHistory()
 
+    const [ note, setNote ] = React.useState('')
+
     const handleDeleteMeal = (indexOfMealToDelete, mealPrice) => {
         props.deleteMeal(indexOfMealToDelete, mealPrice)
     }
@@ -19,7 +21,7 @@ const Order = (props) => {
     }
 
     const handleSendOrder = (history, user) => {
-        props.sendOrder(history, user)
+        props.sendOrder(history, user, note)
     }
 
     
@@ -41,7 +43,7 @@ const Order = (props) => {
 
                 return <OrderMeal index={index} meal={meal} table={props.order.table} handleDeleteMeal={handleDeleteMeal} getCourseName={getCourseName}/>
             })}
-            
+            <textarea className="textarea margin-top" placeholder="Unesite napomenu (opcionalno)" value={note} onChange={(e) => setNote(e.target.value)}></textarea>
             <div className="order-controls">
                 <button className="btn-odustani" onClick={handleOrderReset}>Odustani</button>
                 <button className="btn-posalji" disabled={props.order.total === 0} onClick={() => {handleSendOrder(history)}}>{props.order.total === 0 ? 'Dodajte jela prije slanja' : 'Pošalji narudžbu'}</button>

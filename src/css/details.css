@@ -160,3 +160,9 @@
     margin-left: 10px;
     cursor: pointer;
 }
+
+.meal-type {
+    display: inline-block!important;
+    font-size: 12px!important;
+    text-transform: capitalize!important;
+}

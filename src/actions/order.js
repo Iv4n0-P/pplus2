@@ -51,7 +51,7 @@ export const deleteMeal = (indexOfMealToDelete, mealPrice) => {
     }
 }
 
-export const sendOrder = (history, user) => {
+export const sendOrder = (history, user, note) => {
     return async (dispatch, getState) => {
         
         const order = getState().order
@@ -59,6 +59,7 @@ export const sendOrder = (history, user) => {
         const orderForSend = {
             "user": user,
             "table": order.table,
+            "note": note,
             "orderitem_set": order.orderitem_set
             }
             

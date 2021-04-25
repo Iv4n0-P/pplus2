@@ -88,8 +88,11 @@ const MealDetails = (props) => {
         } else if (mealToEdit) {
             const oldTotalPrice = Number(mealToEdit.currPrice)
             const newTotalPrice = Number(mealTotalPrice)
+            const totalMinusOldTotalPrice = props.order.total - (oldTotalPrice * mealToEdit.quantity)
+            const newTotalPriceTimesQuantity = newTotalPrice * mealToEdit.quantity
+            
             props.updateOrder({
-                total: (props.order.total - oldTotalPrice * mealToEdit.quantity) + newTotalPrice * mealToEdit.quantity
+                total: totalMinusOldTotalPrice + newTotalPriceTimesQuantity
             })
 
             props.updateMeal(params.index, {

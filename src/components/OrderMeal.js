@@ -23,7 +23,7 @@ const OrderMeal = (props) => {
         }}>
             <button className="btn-x" onClick={(e) => {
                 e.stopPropagation()
-                return props.handleDeleteMeal(props.index, props.meal.price)
+                return props.handleDeleteMeal(props.index, Number(props.meal.currPrice) * quantity)
             }}>x</button>
             <button className="btn-plus" onClick={(e) => {
                 e.stopPropagation()
