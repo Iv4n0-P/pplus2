@@ -7,13 +7,8 @@ const OrderMeal = (props) => {
 
     const history = useHistory()
 
-    const [quantity, setQuantity] = React.useState(props.meal.quantity ? props.meal.quantity : 1)
-
-    React.useEffect(() => {
-        props.updateMeal(props.index, {
-            quantity
-        })
-    }, [quantity])
+    const defaultQuantity = props.meal.quantity ? props.meal.quantity : 1
+    const [ quantity, setQuantity ] = React.useState(Number(defaultQuantity))
 
     return (
 
@@ -23,23 +18,28 @@ const OrderMeal = (props) => {
         }}>
             <button className="btn-x" onClick={(e) => {
                 e.stopPropagation()
-                return props.handleDeleteMeal(props.index, Number(props.meal.currPrice) * quantity)
+                const priceToReduce = props.meal.currPrice * props.meal.quantity
+                return props.handleDeleteMeal(props.index, priceToReduce)
             }}>x</button>
             <button className="btn-plus" onClick={(e) => {
                 e.stopPropagation()
                 setQuantity(quantity + 1)
+                props.updateMeal(props.index, {
+                    quantity: quantity + 1
+                })
                 props.updateOrder({
                     total: props.order.total + Number(props.meal.currPrice)
                 })
             }}>+</button>
-            <button className="btn-minus" onClick={(e) => {
+            <button disabled={quantity === 1} className="btn-minus" onClick={(e) => {
                 e.stopPropagation()
-                if (quantity !== 1) {
-                    setQuantity(quantity - 1)
-                    props.updateOrder({
-                        total: props.order.total - Number(props.meal.currPrice)
-                    })
-                }
+                setQuantity(quantity - 1)
+                props.updateMeal(props.index, {
+                    quantity: quantity - 1
+                })
+                props.updateOrder({
+                    total: props.order.total - Number(props.meal.currPrice)
+                })
 
             }}>-</button>
             <p className="meal-title"><span>{props.getCourseName()}</span>{props.meal.item_name}</p>

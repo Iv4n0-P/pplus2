@@ -44,7 +44,7 @@ export const deleteMeal = (indexOfMealToDelete, mealPrice) => {
 
         const updates = {
             orderitem_set: newMeals,
-            total: currTotalPrice - Number(mealPrice)
+            total: currTotalPrice - mealPrice
         }
 
         dispatch(updateOrder(updates))
@@ -87,11 +87,12 @@ export const startDeleteOrder = (table, history, user) => {
     }
 }
 
-export const updateMeal = (index, updates) => {
-   return (dispatch, getState) => {
+export const updateMeal = (indexString, updates) => {
+    const index = Number(indexString)
+       return (dispatch, getState) => {
         const order = getState().order
         const newOrderItemSet = order.orderitem_set.map((meal, i) => {
-            if (i === Number(index)) {
+            if (i === index) {
                 return {...meal, ...updates}
             } else { return meal }
         })

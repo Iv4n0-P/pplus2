@@ -77,8 +77,8 @@ const MealDetails = (props) => {
                 price: props.meal.price,
                 course: getCourseNum(),
                 extras: extras.map((extra) => { return extra.id }),
-                quantity: 1,
                 note,
+                quantity: 1,
                 tmp: {
                     mealIndex: params.mealIndex,
                     menuItemId: params.menuItemId,
@@ -90,7 +90,10 @@ const MealDetails = (props) => {
             const newTotalPrice = Number(mealTotalPrice)
             const totalMinusOldTotalPrice = props.order.total - (oldTotalPrice * mealToEdit.quantity)
             const newTotalPriceTimesQuantity = newTotalPrice * mealToEdit.quantity
-            
+            const extrasForUpdate = extras.map((extra) => {
+                return extra.id
+            })
+
             props.updateOrder({
                 total: totalMinusOldTotalPrice + newTotalPriceTimesQuantity
             })
@@ -98,13 +101,14 @@ const MealDetails = (props) => {
             props.updateMeal(params.index, {
                 currPrice: Number(mealTotalPrice),
                 course: getCourseNum(),
-                extras: extras.map((extra) => { return extra.id }),
+                extras: extrasForUpdate,
                 note,
                 tmp: {
                     mealIndex: params.mealIndex,
                     menuItemId: params.menuItemId,
                     extrasTotal: mealToEdit ? mealTotalPrice - mealToEdit.price : mealTotalPrice - props.meal.price
-                }
+                },
+                quantity: mealToEdit.quantity
             })
         }
 
@@ -156,6 +160,7 @@ const MealDetails = (props) => {
                     {props.extras.map((extra) => {
                         const addedExtraIds = extras.map((extra) => extra.id) || []
                         const testResult = addedExtraIds.find((id) => id === extra.id)
+                        console.log(testResult)
                         return (
                             <div>
                                 <label class="containerExtras">
