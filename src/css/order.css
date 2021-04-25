@@ -58,16 +58,30 @@
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
-.order-meal button {
+.btn-x {
     position: absolute;
     top: 0;
     right: 0;
     cursor: pointer;
-    padding: 3px 7px;
+    width: 25px;
+    height: 25px;
     background-color: var(--primary);
     border: none;
+}
+
+.btn-plus {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+    color: #333;
+    width: 25px;
+    height: 25px;
 }
 
 .order-controls {
@@ -93,6 +107,12 @@
     color: white;
     cursor: pointer;
     font-family: inherit;
+}
+
+.btn-posalji:disabled {
+    background-color: #333;
+    color: #666; 
+    cursor: auto;
 }
 
 .order-dots {

@@ -56,7 +56,7 @@ const Home = (props) => {
 
     return (
         <div className="home-wrap">
-            <button className="button-home button-odjava margin-bottom">Odjava</button>
+            <button className="button-home button-odjava margin-bottom" onClick={() => {props.history.push('/')}}>Odjava</button>
            
             <h3 className="subtitle">Upiši stol</h3>
             <form onSubmit={handleOnSubmit}>

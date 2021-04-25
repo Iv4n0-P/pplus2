@@ -1,18 +1,38 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addMeal } from '../actions/order'
+import { addMeal, updateMeal, updateOrder } from '../actions/order'
 import { useHistory } from 'react-router-dom'
 import * as QueryString from 'query-string'
 
 const MealDetails = (props) => {
+    const params = QueryString.parse(props.location.search)
+   
 
     const history = useHistory()
 
-    const [mealType, setMealType] = React.useState('')
-    const [extras, setExtras] = React.useState([])
-    const [quantity, setQuantity] = React.useState(1)
-    const [mealTotalPrice, setMealTotalPrice] = React.useState(props.meal.price)
-    const [note, setNote] = React.useState('')
+    const mealToEdit = props.order.orderitem_set.find((meal, i) => {
+        return i === Number(params.index)
+    })
+
+    const getCourseName = (course) => {
+        if (course === 1) {return 'predjelo'}
+        if (course === 2) {return 'glavno'}
+        if (course === 3) {return 'desert'}
+    }
+
+    let extrasToEdit = []
+
+    if (mealToEdit) {
+        mealToEdit.extras.forEach((extraId) => {
+            let tempExtrasArray = props.extras.filter((propsextra) => {return propsextra.id === extraId})
+            extrasToEdit = [...extrasToEdit, ...tempExtrasArray]
+        })
+    }  
+
+    const [mealType, setMealType] = React.useState(getCourseName(mealToEdit ? mealToEdit.course : ''))
+    const [extras, setExtras] = React.useState(mealToEdit ? extrasToEdit : [])
+    const [mealTotalPrice, setMealTotalPrice] = React.useState(mealToEdit ? mealToEdit.currPrice : props.meal.price)
+    const [note, setNote] = React.useState(mealToEdit ? mealToEdit.note : '')
 
     const onValueChange = (e) => {
         setMealType(e.target.value)
@@ -34,10 +54,10 @@ const MealDetails = (props) => {
             return i !== indexOfExtraToDelete
         }))
 
-        const total = mealTotalPrice * quantity
-        const price = extraToDelete.price * quantity
+        const total = mealTotalPrice
+        const price = extraToDelete.price
         const finalPrice = total - price
-        setMealTotalPrice(finalPrice / quantity)
+        setMealTotalPrice(finalPrice)
     } 
 
     const onFormSubmit = (e) => {
@@ -49,15 +69,41 @@ const MealDetails = (props) => {
             if (mealType === 'desert') {return 3}
         }
 
-        props.addMeal({
-            item: props.meal.id,
-            item_name: props.meal.name,
-            price: mealTotalPrice * quantity,
+        if (!mealToEdit) {
+            props.addMeal({
+                item: props.meal.id,
+                item_name: props.meal.name,
+                currPrice: Number(mealTotalPrice),
+                price: props.meal.price,
+                course: getCourseNum(),
+                extras: extras.map((extra) => {return extra.id}),
+                quantity: 1,
+                note,
+                tmp: {
+                    mealIndex: params.mealIndex,
+                    menuItemId: params.menuItemId
+                }
+            }, props.table)
+        } else if (mealToEdit) {
+            const oldTotalPrice = Number(mealToEdit.currPrice)
+            const newTotalPrice = Number(mealTotalPrice)
+            props.updateOrder({
+                total: (props.order.total - oldTotalPrice * mealToEdit.quantity) + newTotalPrice * mealToEdit.quantity
+            })
+
+            props.updateMeal(params.index, {
+            currPrice: Number(mealTotalPrice),
             course: getCourseNum(),
             extras: extras.map((extra) => {return extra.id}),
-            quantity,
-            note
-        }, props.table)
+            note,
+            tmp: {
+                mealIndex: params.mealIndex,
+                menuItemId: params.menuItemId
+            }
+        })
+        }
+        
+         
 
         history.push(`/menu/${props.table}`)
     }
@@ -111,7 +157,7 @@ const MealDetails = (props) => {
                 </div>
               <div className="meal-summary">
 
-                    <p>Dodaci: <span>{extras.map((extra) => {
+                    <p><span>{extras.map((extra) => {
                         return  (
                             <div>
                             <p>
@@ -128,32 +174,15 @@ const MealDetails = (props) => {
                             </div>
                         )
                     })}</span></p>
-                    <h5><span className="price-span">{mealTotalPrice * quantity}</span> <span>kn</span></h5>
-                    <div className="kolicina-wrap">
-                        <div className="kolicina-col1">
-                            <p>Količina: <span>{quantity}</span></p>
-                        </div>
-                        <div className="kolicina-col2">
-                            <p onClick={() => {
-                                setQuantity(quantity + 1)
-
-                            }}>+</p>
-                            <p onClick={() => {
-                                if (quantity !== 1) { return setQuantity(quantity - 1) }
-                                setQuantity(quantity)
-
-                            }}>-</p>
-                        </div>
-                    </div>
-
+                    <h5><span className="price-span">{mealTotalPrice}</span> <span>kn</span></h5>
                 </div>
 
                 <textarea className="textarea" placeholder="Unesite poruku (opcionalno)" value={note} onChange={(e) => {setNote(e.target.value)}}></textarea>
 
 
-                <button className="btn-posalji margin-top margin-bottom">Dodaj u narudžbu</button>
+                <button className="btn-posalji margin-top margin-bottom">{mealToEdit ? 'Sačuvaj izmjene' : 'Dodaj u narudžbu'}</button>
             </form>
-            <button className="btn-odustani" onClick={resetAll}>Odustani od jela</button>
+            <button className="btn-odustani" onClick={resetAll}>Odustani</button>
         </div>
     )
 }
@@ -166,8 +195,9 @@ const mapStateToProps = (state, ownProps) => {
     const meal = menuItemOfMeal.meals[Number(params.mealIndex)]
     return {
         extras: state.extras,
-        meal
+        meal,
+        order: state.order
     }
 }
 
-export default connect(mapStateToProps, { addMeal })(MealDetails)
+export default connect(mapStateToProps, { updateMeal, addMeal, updateOrder })(MealDetails)

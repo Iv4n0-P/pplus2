@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { deleteMeal } from '../actions/order'
 import { sendOrder, startDeleteOrder } from '../actions/order'
+import OrderMeal from './OrderMeal'
 
 const Order = (props) => {
 
@@ -28,6 +29,7 @@ const Order = (props) => {
             <h3 className="order-subtitle">Narudžba</h3>
             <p>Konobar: <span>{props.order.user}</span></p>
             <p>Stol: <span>{props.order.table}</span></p>
+            <p>Jela: <span>Pritisnite na jelo za uređivanje</span></p>
 
             {props.order.orderitem_set.length !== 0 && props.order.orderitem_set.map((meal, index) => {
 
@@ -37,24 +39,12 @@ const Order = (props) => {
                     if (meal.course === 3) {return 'Desert'}
                 }
 
-                return (
-                    <div key={Math.random() * meal.item} className="order-meal">
-                        <button disabled={meal.sent} onClick={() => handleDeleteMeal(index, meal.price)}>x</button>
-                        <p className="meal-title"><span>{getCourseName()}</span>{meal.item_name}</p>
-                        <p><span>Količina: {meal.quantity}</span></p>
-                        <p className="order-price">{meal.price} <span>kn</span></p>
-                        <p><span className="tmp-extras">{meal.extras.map((extra) => {
-                            const extraFromState = props.extras.find((extraState) => {return extraState.id === extra})
-                            return `${extraFromState.name}, `
-                        })}</span></p>
-                        <p><span>Napomena: {meal.note}</span></p>
-                        </div>
-                )
+                return <OrderMeal index={index} meal={meal} table={props.order.table} handleDeleteMeal={handleDeleteMeal} getCourseName={getCourseName}/>
             })}
             
             <div className="order-controls">
                 <button className="btn-odustani" onClick={handleOrderReset}>Odustani</button>
-                <button className="btn-posalji" disabled={props.order.totalPrice === 0} onClick={() => {handleSendOrder(history)}}>Pošalji narudžbu</button>
+                <button className="btn-posalji" disabled={props.order.total === 0} onClick={() => {handleSendOrder(history)}}>{props.order.total === 0 ? 'Dodajte jela prije slanja' : 'Pošalji narudžbu'}</button>
             </div>
             <p className="order-total"><span className="order-dots"></span> Ukupno:&nbsp;<span>{props.order.total} kn</span></p>
         </div>

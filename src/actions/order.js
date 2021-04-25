@@ -1,4 +1,5 @@
 import planplus from "../apis/planplus"
+import orderReducer from "../reducers/orderReducer"
 
 export const startUpdateOrder = (history, updates) => {
     return (dispatch) => {
@@ -23,7 +24,7 @@ export const addMeal = (meal, table) => {
         
         const updates = {
             orderitem_set: newMeals,
-            total: currTotalPrice + Number(meal.price)
+            total: currTotalPrice + Number(meal.currPrice)
         }
         
         dispatch(updateOrder(updates))
@@ -83,4 +84,19 @@ export const startDeleteOrder = (table, history, user) => {
         }))
         history.push(`/home/${user}`)
     }
+}
+
+export const updateMeal = (index, updates) => {
+   return (dispatch, getState) => {
+        const order = getState().order
+        const newOrderItemSet = order.orderitem_set.map((meal, i) => {
+            if (i === Number(index)) {
+                return {...meal, ...updates}
+            } else { return meal }
+        })
+        const newUpdates = {
+            orderitem_set: newOrderItemSet
+        }
+        dispatch(updateOrder(newUpdates))
+   }
 }
