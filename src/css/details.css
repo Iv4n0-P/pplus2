@@ -83,6 +83,14 @@
     font-family: inherit;
 }
 
+.btn-same-size {
+    width: 250px;
+}
+
+.btn-full-width {
+    width: 100%    
+}
+
 .btn-posalji {
     margin-right: 10px;
     padding: 5px 20px;

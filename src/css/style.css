@@ -23,7 +23,8 @@ h1, h2, h3, h4, h5 {
 .bg {
     background:linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url("../img/speacial-bg.jpg");
     background-size: cover;
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
     color: var(--terciary);  
     display: flex;
     flex-direction: column;

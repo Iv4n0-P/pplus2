@@ -29,7 +29,7 @@ const MealDetails = (props) => {
         })
     }
 
-    const [mealType, setMealType] = React.useState(getCourseName(mealToEdit ? mealToEdit.course : ''))
+    const [mealType, setMealType] = React.useState(getCourseName(mealToEdit ? mealToEdit.course : 1))
     const [extras, setExtras] = React.useState(mealToEdit ? extrasToEdit : [])
     const [mealTotalPrice, setMealTotalPrice] = React.useState(mealToEdit ? mealToEdit.currPrice : props.meal.price)
     const [note, setNote] = React.useState(mealToEdit ? mealToEdit.note : '')
@@ -119,6 +119,7 @@ const MealDetails = (props) => {
 
     return (
         <div className="meal-wrap">
+        
             <h3 className="meal-title">{props.meal.name}</h3>
             <h5><span>Osnovna cijena: </span>{props.meal.price} kn</h5>
 
@@ -160,7 +161,6 @@ const MealDetails = (props) => {
                     {props.extras.map((extra) => {
                         const addedExtraIds = extras.map((extra) => extra.id) || []
                         const testResult = addedExtraIds.find((id) => id === extra.id)
-                        console.log(testResult)
                         return (
                             <div>
                                 <label class="containerExtras">
@@ -194,8 +194,8 @@ const MealDetails = (props) => {
 
                 <textarea className="textarea" placeholder="Unesite poruku (opcionalno)" value={note} onChange={(e) => { setNote(e.target.value) }}></textarea>
 
-
-                <button className="btn-posalji margin-top margin-bottom">{mealToEdit ? 'Sačuvaj izmjene' : 'Dodaj u narudžbu'}</button>
+                
+                 <button className="btn-posalji margin-top margin-bottom">{mealToEdit ? 'Sačuvaj jelo' : 'Dodaj u narudžbu'}</button>
             </form>
             <button className="btn-odustani" onClick={resetAll}>Odustani</button>
         </div>

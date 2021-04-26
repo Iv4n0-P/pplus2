@@ -14,7 +14,7 @@ const Meals = (props) => {
     const renderMeals = () => {
         return menuItem.meals.map((meal, index) => {
             return (
-                <div onClick={() => { props.history.push(`/meal?table=${params.table}&mealIndex=${index}&menuItemId=${menuItem.id}`)}} className="meals-box" key={meal.id}>
+                <div className="menu-box" onClick={() => { props.history.push(`/meal?table=${params.table}&mealIndex=${index}&menuItemId=${menuItem.id}`)}} key={meal.id}>
                     <p style={{cursor: 'pointer'}}>{meal.name}</p>
                 </div>
             )
@@ -24,7 +24,7 @@ const Meals = (props) => {
     return (
         <div>
         <Order table={params.table}/>
-            <button className="button-home button-odjava" onClick={() => { props.history.goBack()}}>Povratak u meni</button>
+            <button className="button-home button-odjava" onClick={() => { props.history.goBack()}}>Povratak</button>
             <h3 className="meal-name">{menuItem.name}</h3>
             {renderMeals()}
             

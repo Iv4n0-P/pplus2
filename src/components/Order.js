@@ -31,7 +31,7 @@ const Order = (props) => {
             <h3 className="order-subtitle">Narudžba</h3>
             <p>Konobar: <span>{props.order.user}</span></p>
             <p>Stol: <span>{props.order.table}</span></p>
-            <p>Jela: <span>Pritisnite na jelo za uređivanje</span></p>
+            {props.order.orderitem_set.length !== 0 && <p className="margin-top">Jela: <span>Pritisnite na jelo za uređivanje</span></p>}
 
             {props.order.orderitem_set.length !== 0 && props.order.orderitem_set.map((meal, index) => {
 
@@ -48,7 +48,7 @@ const Order = (props) => {
                 <button className="btn-odustani" onClick={handleOrderReset}>Odustani</button>
                 <button className="btn-posalji" disabled={props.order.total === 0} onClick={() => {handleSendOrder(history)}}>{props.order.total === 0 ? 'Dodajte jela prije slanja' : 'Pošalji narudžbu'}</button>
             </div>
-            <p className="order-total"><span className="order-dots"></span> Ukupno:&nbsp;<span>{props.order.total} kn</span></p>
+            <p className="order-total"><span className="order-dots"></span> Ukupno:&nbsp;<span className="ototal">{props.order.total} kn</span></p>
         </div>
     )
 }
