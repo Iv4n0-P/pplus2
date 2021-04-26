@@ -33,6 +33,7 @@ const Order = (props) => {
             <p>Stol: <span>{props.order.table}</span></p>
             {props.order.orderitem_set.length !== 0 && <p className="margin-top">Jela: <span>Pritisnite na jelo za uređivanje</span></p>}
 
+            
             {props.order.orderitem_set.length !== 0 && props.order.orderitem_set.map((meal, index) => {
 
                 const getCourseName = () => {
@@ -43,6 +44,7 @@ const Order = (props) => {
 
                 return <OrderMeal index={index} meal={meal} table={props.order.table} handleDeleteMeal={handleDeleteMeal} getCourseName={getCourseName}/>
             })}
+            
             <textarea className="textarea margin-top" placeholder="Unesite napomenu (opcionalno)" value={note} onChange={(e) => setNote(e.target.value)}></textarea>
             <div className="order-controls">
                 <button className="btn-odustani" onClick={handleOrderReset}>Odustani</button>
