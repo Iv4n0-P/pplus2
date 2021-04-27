@@ -1,29 +1,67 @@
 import React from 'react'
 import planplus from '../apis/planplus'
+import { useHistory } from 'react-router-dom'
 
 const Table = (props) => {
 
+    const history = useHistory()
+
     const table = props.match.params.table
-    const [ orders, setOrders ] = React.useState([])
-    const [ closed, setClosed ] = React.useState([])
+    const [orders, setOrders] = React.useState([])
+    const [paymentMethods, setPaymentMethods] = React.useState([])
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(1)
 
     React.useEffect(() => {
 
         const getOrders = async () => {
             const { data } = await planplus.get(`https://pp.doubleclick.hr/hr/orders/open?table=${table}`)
             setOrders(data.results)
-            console.log(orders)
         }
 
-        const getClosed = async () => {
-            const { data } = await planplus.get(`https://pp.doubleclick.hr/hr/orders/closed?table=${table}`)
-            setClosed(data.results)
-            console.log(closed)
+        const getPaymentMethods = async () => {
+            const { data } = await planplus.get('https://pp.doubleclick.hr/hr/payment-methods/api/')
+            console.log(data.results)
+            setPaymentMethods(data.results)
         }
-
         getOrders()
-        getClosed()
+        getPaymentMethods()
+
     }, [])
+
+    const onValueChange = (id) => {
+        setSelectedPaymentMethod(id)
+    }
+
+    const handleSendInovice = async () => {
+        await planplus.post(`https://pp.doubleclick.hr/hr/orders/invoice?table=${table}&payment_method=${selectedPaymentMethod}`)
+        history.goBack()
+    }
+
+    const renderHeader = () => {
+        return (
+            <div className="payment-methods-wrap">
+                <h3 className="subtitle margin-bottom">Odaberi način plaćanja</h3>
+                
+                {paymentMethods.map((method) => {
+                    return (
+                        <div>
+                            <label className="label-table">
+                                <input
+                                    type="radio"
+                                    value={method.id}
+                                    checked={selectedPaymentMethod === method.id}
+                                    onChange={() => {onValueChange(method.id)}}
+                                />
+                                <span className="checkmark-table"></span>
+                        {method.name}
+                    </label>
+                        </div>
+                    )
+                })}
+                <button className="btn-posalji-table margin-top margin-bottom" onClick={handleSendInovice}>{`Izdaj račun za stol ${table}`}</button>
+            </div>
+        )
+    }
 
     const handleViewOrder = (id) => {
         props.history.push(`/details?id=${id}&user=admin`)
@@ -32,54 +70,31 @@ const Table = (props) => {
     const renderOrders = () => {
         return orders.map((order) => {
             return (
-                <div key={order.table} className="otvoreni-stolovi-box">
-                    <div className="otvoreni-stolovi-box-col1">
-                        <h6>Stol {order.table}</h6>
+                <div onClick={() => { handleViewOrder(order.id) }} key={order.table} className="otvoreni-stolovi-box">
+                        <h6>{order.label}</h6>
                         <p>Ukupno: {order.total} kn</p>
-                    </div>
-                    <div className="otvoreni-stolovi-box-col2">
-                        <button onClick={() => { handleViewOrder(order.id) }}>Opširnije</button>
-                    </div>
                 </div>
             )
         })
     }
 
-    const renderClosed = () => {
-        return closed.map((order) => {
-            return (
-                <div key={order.table} className="otvoreni-stolovi-box">
-                    <div className="otvoreni-stolovi-box-col1">
-                        <h6>Stol {order.table}</h6>
-                        <p>Ukupno: {order.total} kn</p>
-                    </div>
-                    <div className="otvoreni-stolovi-box-col2">
-                        <button onClick={() => { handleViewOrder(order.id) }}>Opširnije</button>
-                    </div>
-                </div>
-            )
-        })
-    }
- 
     return (
         <div>
-        <button className="button-home button-odjava margin-bottom" onClick={() => {
-            props.history.goBack()
-        }}>Povratak</button>
-        <h3>{`Stol ${table}`}</h3>
-        <h3 className="subtitle margin-top">Otvorene narudžbe</h3>
-        {orders.length !== 0 ? renderOrders() : (
-            <div>
-            <span class="load margin-top">
-                <div class="loading-dot"></div>
-                <div class="loading-dot"></div>
-                <div class="loading-dot"></div>
-                <div class="loading-dot"></div>
-            </span>
-            </div>
-        )}
-        <h3 className="subtitle margin-top">Zatvorene narudžbe</h3>
-        {closed.length === 0 ? <p className="no-orders">Nema zatvorenih narudžbi</p> : renderClosed()}
+            <button className="button-home button-odjava margin-bottom" onClick={() => {
+                props.history.goBack()
+            }}>Povratak</button>
+            {renderHeader()}
+            <h3 className="margin-bottom table-title">{`Stol ${table}`}</h3>
+            {orders.length !== 0 ? renderOrders() : (
+                <div>
+                    <span class="load margin-top">
+                        <div class="loading-dot"></div>
+                        <div class="loading-dot"></div>
+                        <div class="loading-dot"></div>
+                        <div class="loading-dot"></div>
+                    </span>
+                </div>
+            )}
         </div>
     )
 }

@@ -7,21 +7,20 @@ const Home = (props) => {
 
     const user = props.match.params.user
 
-    const [ selectedTable, setSelectedTable ] = React.useState('1')
-    const [ orders, setOrders ] = React.useState([])
- 
+    const [selectedTable, setSelectedTable] = React.useState('1')
+    const [tables, setTables] = React.useState([])
+
+    React.useEffect(() => {
+        const getTables = async () => {
+            const { data } = await planplus.get('https://pp.doubleclick.hr/hr/orders/tables/')
+            setTables(data.results)
+        }
+        getTables()
+    }, [])
+
     const onInputChange = (value) => {
         setSelectedTable(value)
     }
-
-    React.useEffect(() => {
-        const getOrders = async () => {
-            const { data } = await planplus.get('https://pp.doubleclick.hr/hr/orders/api/')
-            setOrders(data.results)
-        }
-
-        getOrders()        
-    }, [])
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
@@ -32,23 +31,12 @@ const Home = (props) => {
         props.history.push(`/details?id=${id}&user=${user}`)
     }
 
-    const finishOrder = (id) => {
-        console.log(`Upucuje ID apiju`)
-    }
-
     const renderOrders = () => {
 
-        return orders.map((order) => {
+        return tables.map((table) => {
             return (
-                <div key={order.table} className="otvoreni-stolovi-box">
-                    <div className="otvoreni-stolovi-box-col1">
-                        <h6 className="table" onClick={() => {props.history.push(`/table/${order.table}`)}}>Stol {order.table} &rsaquo;</h6>
-                        <p>Ukupno: {order.total} kn</p>
-                    </div>
-                    <div className="otvoreni-stolovi-box-col2">
-                        <button onClick={() => { handleViewOrder(order.id) }}>Opširnije</button>
-                        <button className="otvoreni-stolovi-box-btn2" onClick={() => { finishOrder(order.id) }}>Izdaj račun</button>
-                    </div>
+                <div key={table.table} className="otvoreni-stolovi-box" onClick={() => { props.history.push(`/table/${table.table}`) }}>
+                    <h6 className="table">Stol {table.table} &rsaquo;</h6>
                 </div>
             )
         })
@@ -56,32 +44,31 @@ const Home = (props) => {
 
     return (
         <div className="home-wrap">
-            <button className="button-home button-odjava margin-bottom" onClick={() => {props.history.push('/')}}>Odjava</button>
-           
+            <button className="button-home button-odjava margin-bottom" onClick={() => { props.history.push('/') }}>Odjava</button>
+
             <h3 className="subtitle">Upiši stol</h3>
             <form onSubmit={handleOnSubmit}>
                 <input className="home-input" type="text" value={selectedTable} onChange={(e) => { onInputChange(e.target.value) }} />
                 <button className="button-home">Kreiraj novu narudžbu</button>
             </form>
             <div className="otvoreni-stolovi">
-            {orders.length !== 0 ? (
-                <div>
-                <h3 className="subtitle">Otvorene narudžbe</h3>
-                <p>Pritisnite na stol za pogledat sve narudžbe tog stola.</p>
-                </div>
-            ) : (
-                <div>
-                <h3 className="subtitle margin-bottom">Učitavanje narudžbi...</h3>
-                <span class="load">
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                </span>
-                </div>
-            )}
+                {tables.length !== 0 ? (
+                    <div>
+                        <h3 className="subtitle">Stolovi sa otvorenim narudžbama</h3>
+                    </div>
+                ) : (
+                    <div>
+                        <h3 className="subtitle margin-bottom">Dohvaćanje otvorenih stolova...</h3>
+                        <span class="load">
+                            <div class="loading-dot"></div>
+                            <div class="loading-dot"></div>
+                            <div class="loading-dot"></div>
+                            <div class="loading-dot"></div>
+                        </span>
+                    </div>
+                )}
                 {renderOrders()}
-            <p className="closed-link" onClick={() => {props.history.push(`/closed/${user}`)}}>Zatvorene narudžbe &rarr;</p>
+                <p className="closed-link" onClick={() => { props.history.push(`/closed/${user}`) }}>Zatvorene narudžbe &rarr;</p>
             </div>
         </div>
     )

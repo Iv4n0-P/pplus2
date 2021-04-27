@@ -154,9 +154,9 @@ const MealDetails = (props) => {
                     <span className="checkmark"></span>
                     Desert
                 </label>
-
+                
                 <h5 className="margin-bottom">Extras</h5>
-
+                
                 <div>
                     {props.extras.map((extra) => {
                         const addedExtraIds = extras.map((extra) => extra.id) || []
@@ -186,15 +186,10 @@ const MealDetails = (props) => {
                         )
                     })}
                 </div>
-
-
                 <div className="meal-summary">
                     <h5>Cijena sa dodacima: <span className="price-span">{mealTotalPrice}</span> <span>kn</span></h5>
                 </div>
-
                 <textarea className="textarea" placeholder="Unesite poruku (opcionalno)" value={note} onChange={(e) => { setNote(e.target.value) }}></textarea>
-
-                
                  <button className="btn-posalji margin-top margin-bottom">{mealToEdit ? 'Sačuvaj jelo' : 'Dodaj u narudžbu'}</button>
             </form>
             <button className="btn-odustani" onClick={resetAll}>Odustani</button>

@@ -2,12 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { getCategories } from '../actions/menu'
 import { setExtras } from '../actions/extras'
+import planplus from '../apis/planplus'
 
 const Login = (props) => {
 
     const [user, setUser] = React.useState('')
     const [pass, setPass] = React.useState('')
     const [loading, setLoading] = React.useState(true)
+    const [error, setError] = React.useState(false)
 
     React.useEffect(() => {
         props.getCategories()
@@ -22,11 +24,24 @@ const Login = (props) => {
 
     }, [props])
 
-    const handleOnSubmit = (e) => {
+    const handleOnSubmit = async (e) => {
         e.preventDefault()
-        if (user === 'admin') {
-            props.history.push(`/home/${user}`)
+        
+        const loginDetailsForSend = {
+            "email": user,
+            "password": pass
         }
+
+        try {
+            const data = await planplus.post('https://pp.doubleclick.hr/hr/users/login/', loginDetailsForSend)
+            if ('id' in data.data) {
+                props.history.push(`/home/${data.data.id}`)
+            }
+        } catch {
+            setUser('')
+            setPass('')
+            setError(true)
+        }        
     }
 
     return (
@@ -36,10 +51,11 @@ const Login = (props) => {
             {!loading && <form onSubmit={handleOnSubmit}>
                 <input type="text" placeholder="Korisničko ime" value={user} onChange={(e) => { setUser(e.target.value) }} />
                 <input type="text" placeholder="Lozinka" value={pass} onChange={(e) => { setPass(e.target.value) }} />
+                {error && <p className="errmsg">Pogrešno korisničko ime ili lozinka</p>}
                 <button className="button-login">Prijava</button>
             </form>}
             {loading && <div className="loading-content">
-                <h3 className="subtitle">Učitavanje menija...</h3>
+                <h3 className="subtitle">Dohvaćanje i učitavanje menija...</h3>
 
                 <span class="load">
                     <div class="loading-dot"></div>
