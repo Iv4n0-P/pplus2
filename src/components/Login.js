@@ -18,7 +18,7 @@ const Login = (props) => {
 
     React.useEffect(() => {
 
-        if (props.menu.length === 14 && props.menu[13].meals) {
+        if (props.menu.length >= 14 && props.menu[13].meals) {
             setLoading(false)
         }
 

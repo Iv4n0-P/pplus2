@@ -20,7 +20,6 @@ const Table = (props) => {
 
         const getPaymentMethods = async () => {
             const { data } = await planplus.get('https://pp.doubleclick.hr/hr/payment-methods/api/')
-            console.log(data.results)
             setPaymentMethods(data.results)
         }
         getOrders()
