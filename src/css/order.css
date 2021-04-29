@@ -3,7 +3,7 @@
     font-family: 'Playfair Display', serif;
     width: 100vw;
     padding: 20px 30px;
-    position: fixed;
+    position: absolute;
     bottom: 92vh;
     left: 0;
     z-index: 1;
@@ -216,7 +216,6 @@
     position: relative;
     margin-top: -50px;
     margin-bottom: 20px;
-    
 }
 
 .d3 {
