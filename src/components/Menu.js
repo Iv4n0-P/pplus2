@@ -9,11 +9,11 @@ const Menu = (props) => {
     }
 
     const renderCategories = () => {
-        
+
         return props.menu.map((menuItem) => {
             return (
-                <div className="menu-box" key={menuItem.id} onClick={() => {handleOnClick(menuItem.id)}}>
-                <p>{menuItem.name}</p>
+                <div className="menu-box" key={menuItem.id} onClick={() => { handleOnClick(menuItem.id) }}>
+                    <p>{menuItem.name}</p>
                 </div>
             )
         })
@@ -21,11 +21,20 @@ const Menu = (props) => {
 
     return (
         <div className="menu-wrap">
-        <Order table={props.match.params.table}/>
-        <h3 className="subtitle">Odaberi kategoriju</h3>
-           <div className="menu-items-wrap">
-           {renderCategories()}
-           </div> 
+            <Order table={props.match.params.table} />
+            <h3 className="subtitle">Odaberi kategoriju</h3>
+            <div className="menu-items-wrap">
+                <div class="d2-menu">
+                    <div class="d3">
+                        <div class="d4">
+                            <div class="d5">
+                                {renderCategories()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     )
 }
