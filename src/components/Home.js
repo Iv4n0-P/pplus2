@@ -15,7 +15,6 @@ const Home = (props) => {
         const getTables = async () => {
             const { data } = await planplus.get('https://pp.doubleclick.hr/hr/orders/tables/')
             setTables(data.results)
-            console.log(data.results)
         }
         getTables()
     }, [])

@@ -5,23 +5,29 @@ import { useHistory } from 'react-router-dom'
 const Table = (props) => {
 
     const history = useHistory()
-
     const table = props.match.params.table
     const [orders, setOrders] = React.useState([])
     const [paymentMethods, setPaymentMethods] = React.useState([])
     const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(1)
+    const [total, setTotal] = React.useState(0)
 
     React.useEffect(() => {
 
         const getOrders = async () => {
             const { data } = await planplus.get(`https://pp.doubleclick.hr/hr/orders/open?table=${table}`)
             setOrders(data.results)
+            let result = 0
+            data.results.forEach((dataResult) => {
+                result = result + Number(dataResult.total)
+            })
+            setTotal(result)
         }
 
         const getPaymentMethods = async () => {
             const { data } = await planplus.get('https://pp.doubleclick.hr/hr/payment-methods/api/')
             setPaymentMethods(data.results)
         }
+
         getOrders()
         getPaymentMethods()
 
@@ -39,7 +45,7 @@ const Table = (props) => {
     const renderHeader = () => {
         return (
             <div className="payment-methods-wrap">
-                <h3 className="subtitle margin-bottom">Odaberi način plaćanja</h3>
+                
 
                 {paymentMethods.map((method) => {
                     return (
@@ -83,7 +89,8 @@ const Table = (props) => {
                 props.history.goBack()
             }}>Povratak</button>
             {renderHeader()}
-            <h3 className="margin-bottom table-title">{`Stol ${table}`}</h3>
+            <h3 className="table-title">{`Stol ${table}`}</h3>
+            <p className="order-total">Ukupno:&nbsp;<span className="ototal">{total} kn</span></p>          
             {orders.length !== 0 ? (
                 <div class="d2-table">
                     <div class="d3">
@@ -95,8 +102,8 @@ const Table = (props) => {
                     </div>
                 </div>
             ) : (
-                <div>
-                    <span class="load margin-top">
+                <div className="margin-topx2">
+                    <span class="load">
                         <div class="loading-dot"></div>
                         <div class="loading-dot"></div>
                         <div class="loading-dot"></div>
@@ -104,6 +111,7 @@ const Table = (props) => {
                     </span>
                 </div>
             )}
+            
         </div>
     )
 }
