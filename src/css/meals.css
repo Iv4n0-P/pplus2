@@ -9,7 +9,6 @@
     text-align: left;
     border: 1px solid rgba(255,255,255,0.05);
     cursor: pointer;
-    position: relative;
 }
 
 .meals-box:hover {
