@@ -40,7 +40,7 @@ const Table = (props) => {
         return (
             <div className="payment-methods-wrap">
                 <h3 className="subtitle margin-bottom">Odaberi način plaćanja</h3>
-                
+
                 {paymentMethods.map((method) => {
                     return (
                         <div>
@@ -49,11 +49,11 @@ const Table = (props) => {
                                     type="radio"
                                     value={method.id}
                                     checked={selectedPaymentMethod === method.id}
-                                    onChange={() => {onValueChange(method.id)}}
+                                    onChange={() => { onValueChange(method.id) }}
                                 />
                                 <span className="checkmark-table"></span>
-                        {method.name}
-                    </label>
+                                {method.name}
+                            </label>
                         </div>
                     )
                 })}
@@ -70,8 +70,8 @@ const Table = (props) => {
         return orders.map((order) => {
             return (
                 <div onClick={() => { handleViewOrder(order.id) }} key={order.table} className="otvoreni-stolovi-box">
-                        <h6>{order.label}</h6>
-                        <p>Ukupno: {order.total} kn</p>
+                    <h6>{order.label}</h6>
+                    <p>Ukupno: {order.total} kn</p>
                 </div>
             )
         })
@@ -84,7 +84,17 @@ const Table = (props) => {
             }}>Povratak</button>
             {renderHeader()}
             <h3 className="margin-bottom table-title">{`Stol ${table}`}</h3>
-            {orders.length !== 0 ? renderOrders() : (
+            {orders.length !== 0 ? (
+                <div class="d2-table">
+                    <div class="d3">
+                        <div class="d4">
+                            <div class="d5">
+                                {renderOrders()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ) : (
                 <div>
                     <span class="load margin-top">
                         <div class="loading-dot"></div>

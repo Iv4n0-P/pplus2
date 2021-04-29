@@ -15,6 +15,7 @@ const Home = (props) => {
         const getTables = async () => {
             const { data } = await planplus.get('https://pp.doubleclick.hr/hr/orders/tables/')
             setTables(data.results)
+            console.log(data.results)
         }
         getTables()
     }, [])
@@ -68,7 +69,16 @@ const Home = (props) => {
                         </span>
                     </div>
                 )}
-                {renderOrders()}
+                <div class="d2-home">
+                    <div class="d3">
+                        <div class="d4">
+                            <div class="d5">
+                                {renderOrders()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <p className="closed-link" onClick={() => { props.history.push(`/closed/${user}`) }}>Zatvorene narudžbe &rarr;</p>
             </div>
         </div>

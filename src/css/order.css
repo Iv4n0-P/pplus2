@@ -16,7 +16,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    min-height: 100%;
+    min-height: 80vh;
 }
 
 .order-subtitle {
@@ -176,3 +176,53 @@
     font-size: 14px;
     line-height: 1;
 }
+
+
+
+.d2 {
+    height: 265px;
+    position: relative;
+    margin-top: -50px;
+    margin-bottom: 20px;
+    
+}
+
+.d2-home {
+    height: 250px;
+    position: relative;
+    margin-top: -50px;
+    margin-bottom: 20px;
+    
+}
+
+.d2-table {
+    height: 250px;
+    position: relative;
+    margin-top: -50px;
+    margin-bottom: 20px;
+    
+}
+.d3 {
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding-top: 50px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.d4 {
+  position: relative;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.d4::-webkit-scrollbar { 
+    display: none; 
+    }
+
+.d5 {
+    height:2000px; 
+}
+
