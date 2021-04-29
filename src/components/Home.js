@@ -78,8 +78,6 @@ const Home = (props) => {
                         </div>
                     </div>
                 </div>
-
-                <p className="closed-link" onClick={() => { props.history.push(`/closed/${user}`) }}>Zatvorene narudžbe &rarr;</p>
             </div>
         </div>
     )
