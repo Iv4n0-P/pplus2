@@ -190,9 +190,9 @@ const MealDetails = (props) => {
                     <h5>Cijena sa dodacima: <span className="price-span">{mealTotalPrice}</span> <span>kn</span></h5>
                 </div>
                 <textarea className="textarea" placeholder="Unesite poruku (opcionalno)" value={note} onChange={(e) => { setNote(e.target.value) }}></textarea>
-                 <button className="btn-posalji margin-top margin-bottom">{mealToEdit ? 'Sačuvaj jelo' : 'Dodaj u narudžbu'}</button>
+                 <button className="btn-posalji margin-top margin-bottom btn-full-width">{mealToEdit ? 'Sačuvaj jelo' : 'Dodaj u narudžbu'}</button>
             </form>
-            <button className="btn-odustani" onClick={resetAll}>Odustani</button>
+            <button className="btn-odustani btn-full-width" onClick={resetAll}>Odustani</button>
         </div>
     )
 }

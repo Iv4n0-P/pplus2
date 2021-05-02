@@ -1,5 +1,4 @@
-import planplus from "../apis/planplus"
-import orderReducer from "../reducers/orderReducer"
+import axios from 'axios'
 
 export const startUpdateOrder = (history, updates) => {
     return (dispatch) => {
@@ -62,8 +61,16 @@ export const sendOrder = (history, user, note) => {
             "note": note,
             "orderitem_set": order.orderitem_set
             }
+
+            const planplus = axios.create({
+                baseURL: 'https://pp.doubleclick.hr',
+                auth: {
+                    username: getState().user.username,
+                    password: getState().user.password
+                }
+            })
             
-            const data = await planplus.post('https://pp.doubleclick.hr/hr/orders/api/', orderForSend)
+            const data = await planplus.post('/hr/orders/api/', orderForSend)
 
             if (data.status === 201) {
                 history.push(`/home/${order.user}`)

@@ -1,6 +1,7 @@
 import React from 'react'
-import planplus from '../apis/planplus'
+import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const Table = (props) => {
 
@@ -11,10 +12,19 @@ const Table = (props) => {
     const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(1)
     const [total, setTotal] = React.useState(0)
 
+    const planplus = axios.create({
+        baseURL: 'https://pp.doubleclick.hr',
+        auth: {
+            username: props.user.username,
+            password: props.user.password
+        }
+    })
+
     React.useEffect(() => {
 
         const getOrders = async () => {
-            const { data } = await planplus.get(`https://pp.doubleclick.hr/hr/orders/open?table=${table}`)
+            
+            const { data } = await planplus.get(`/hr/orders/open?table=${table}`)
             setOrders(data.results)
             let result = 0
             data.results.forEach((dataResult) => {
@@ -24,7 +34,7 @@ const Table = (props) => {
         }
 
         const getPaymentMethods = async () => {
-            const { data } = await planplus.get('https://pp.doubleclick.hr/hr/payment-methods/api/')
+            const { data } = await planplus.get('/hr/payment-methods/api/')
             setPaymentMethods(data.results)
         }
 
@@ -63,7 +73,7 @@ const Table = (props) => {
                         </div>
                     )
                 })}
-                <button className="btn-posalji-table margin-top margin-bottom" onClick={handleSendInovice}>{`Izdaj račun za stol ${table}`}</button>
+                
             </div>
         )
     }
@@ -86,8 +96,11 @@ const Table = (props) => {
     return (
         <div>
             <button className="button-home button-odjava margin-bottom" onClick={() => {
-                props.history.goBack()
+                props.history.push(`/home/${props.user.id}`)
             }}>Povratak</button>
+            <button className="prebaci-stol margin-bottom" onClick={() => {
+                props.history.push(`/tablechange/${table}`)
+            }}>{`Prebaci stol ${table}`}</button>
             {renderHeader()}
             <h3 className="table-title">{`Stol ${table}`}</h3>
             <p className="order-total">Ukupno:&nbsp;<span className="ototal">{total} kn</span></p>          
@@ -111,9 +124,15 @@ const Table = (props) => {
                     </span>
                 </div>
             )}
-            
+            <button className="btn-posalji-table margin-top margin-bottom" onClick={handleSendInovice}>{`Izdaj račun za stol ${table}`}</button>
         </div>
     )
 }
 
-export default Table
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, {})(Table)

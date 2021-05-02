@@ -133,3 +133,15 @@
   .margin-topx2 {
     margin-top: 20px!important;
 }
+
+.prebaci-stol {
+  background-color: #eee;
+  color: #666;
+
+  font-family: 'Playfair Display', serif;
+    padding: 10px 35px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 0px;
+    cursor: pointer;
+}

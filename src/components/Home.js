@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import planplus from '../apis/planplus'
+import axios from 'axios'
 import { startUpdateOrder } from '../actions/order'
 
 const Home = (props) => {
@@ -13,6 +13,13 @@ const Home = (props) => {
     React.useEffect(() => {
 
         const getTables = async () => {
+            const planplus = axios.create({
+                baseURL: 'https://pp.doubleclick.hr',
+                auth: {
+                    username: props.user.username,
+                    password: props.user.password
+                }
+            })
             const { data } = await planplus.get('https://pp.doubleclick.hr/hr/orders/tables/')
             setTables(data.results)
         }
@@ -82,4 +89,10 @@ const Home = (props) => {
     )
 }
 
-export default connect(null, { startUpdateOrder })(Home)
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, { startUpdateOrder })(Home)
