@@ -43,7 +43,7 @@ const Home = (props) => {
 
         return tables.map((table) => {
             return (
-                <div key={table.table} className="otvoreni-stolovi-box" onClick={() => { props.history.push(`/table/${table.table}`) }}>
+                <div key={table.table} className="otvoreni-stolovi-box" onClick={() => { props.history.push(`/table?table=${table.table}&user=${user}`) }}>
                     <h6 className="table">Stol {table.table} &rsaquo;</h6>
                 </div>
             )
@@ -75,10 +75,10 @@ const Home = (props) => {
                         </span>
                     </div>
                 )}
-                <div class="d2-home">
-                    <div class="d3">
-                        <div class="d4">
-                            <div class="d5">
+                <div className="d2-home">
+                    <div className="d3">
+                        <div className="d4">
+                            <div className="d5">
                                 {renderOrders()}
                             </div>
                         </div>

@@ -33,10 +33,10 @@ const Order = (props) => {
             <p>Stol: <span>{props.order.table}</span></p>
             {props.order.orderitem_set.length !== 0 && <p className="margin-top">Jela: <span>Pritisnite jelo za uređivanje</span></p>}
             {props.order.orderitem_set.length !== 0 && (
-                <div class="d2">
-                    <div class="d3">
-                        <div class="d4">
-                            <div class="d5">
+                <div className="d2">
+                    <div className="d3">
+                        <div className="d4">
+                            <div className="d5">
                                 {props.order.orderitem_set.map((meal, index) => {
 
                                     const getCourseName = () => {

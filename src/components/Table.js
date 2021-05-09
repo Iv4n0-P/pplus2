@@ -2,11 +2,14 @@ import React from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
+import * as QueryString from 'query-string'
 
 const Table = (props) => {
 
     const history = useHistory()
-    const table = props.match.params.table
+    const params = QueryString.parse(props.location.search)
+    const table = params.table
+    const user = params.user
     const [orders, setOrders] = React.useState([])
     const [paymentMethods, setPaymentMethods] = React.useState([])
     const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(1)
@@ -49,7 +52,7 @@ const Table = (props) => {
 
     const handleSendInovice = async () => {
         await planplus.post(`https://pp.doubleclick.hr/hr/orders/invoice?table=${table}&payment_method=${selectedPaymentMethod}`)
-        history.goBack()
+        history.push(`/home/${user}`)
     }
 
     const renderHeader = () => {
@@ -87,7 +90,7 @@ const Table = (props) => {
             return (
                 <div onClick={() => { handleViewOrder(order.id) }} key={order.table} className="otvoreni-stolovi-box">
                     <h6>{order.label}</h6>
-                    <p>Ukupno: {order.total} kn</p>
+                    <p>Ukupno: <span className="ototal">{order.total}</span> kn</p>
                 </div>
             )
         })

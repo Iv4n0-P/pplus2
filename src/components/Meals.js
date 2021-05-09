@@ -22,7 +22,7 @@ const Meals = (props) => {
     }
 
     return (
-        <div>
+        <div className="meals-wrap">
             <Order table={params.table} />
             <button className="button-home button-odjava" onClick={() => { props.history.goBack() }}>Povratak</button>
             <h3 className="meal-name">{menuItem.name}</h3>

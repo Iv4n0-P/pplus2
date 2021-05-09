@@ -48,7 +48,7 @@ const Login = (props) => {
             <h1 className="title">Orders</h1>
             <h3 className="subtitle">Unesite korisničko ime i lozinku. <span>Za sve nejasnoće obratite se voditelju.</span></h3>
            <form onSubmit={handleOnSubmit}>
-                <input type="text" placeholder="Korisničko ime" value={user} onChange={(e) => { setUser(e.target.value) }} />
+                <input autofocus type="text" placeholder="Korisničko ime" value={user} onChange={(e) => { setUser(e.target.value) }} />
                 <input type="text" placeholder="Lozinka" value={pass} onChange={(e) => { setPass(e.target.value) }} />
                 {error && <p className="errmsg">Pogrešno korisničko ime ili lozinka</p>}
                 <button className="button-login">Prijava</button>

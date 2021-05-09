@@ -27,7 +27,7 @@ const App = () => {
                         <Route path="/order" component={Order} />
                         <Route path="/details" component={OrderDetails} />
                         <Route path="/meal" component={MealDetails} />
-                        <Route path="/table/:table" component={Table} />
+                        <Route path="/table" component={Table} />
                     </Switch>
                 </div>
             </Router>

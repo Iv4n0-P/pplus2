@@ -40,14 +40,13 @@ const OrderDetails = (props) => {
 
                 <h3 className="details-subtitle"><span>Narudžba:</span> {order.label}</h3>
                 <p>ID: <span>{order.id}</span></p>
-                <p>Konobar: <span>admin</span></p>
                 <p>Stol: <span>{order.table}</span></p>
                 <p>Datum: <span>{`${day}.${month}.${year}.`}</span></p>
                 <p>Vrijeme: <span>{time} h</span></p>
-                <div class="d2">
-                    <div class="d3">
-                        <div class="d4">
-                            <div class="d5">
+                <div className="d2">
+                    <div className="d3">
+                        <div className="d4">
+                            <div className="d5">
                                 {order.orderitem_set && order.orderitem_set.map((meal, index) => {
                                     return (
                                         <div key={Math.random() * meal.id} className="details-meal">
