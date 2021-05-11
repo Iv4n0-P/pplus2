@@ -119,7 +119,7 @@ const MealDetails = (props) => {
 
     return (
         <div className="meal-wrap">
-        
+
             <h3 className="meal-title">{props.meal.name}</h3>
             <h5><span>Osnovna cijena: </span>{props.meal.price} kn</h5>
 
@@ -154,43 +154,51 @@ const MealDetails = (props) => {
                     <span className="checkmark"></span>
                     Desert
                 </label>
-                
+
                 <h5 className="margin-bottom">Extras</h5>
-                
+
                 <div>
-                    {props.extras.map((extra) => {
-                        const addedExtraIds = extras.map((extra) => extra.id) || []
-                        const testResult = addedExtraIds.find((id) => id === extra.id)
-                        return (
-                            <div>
-                                <label class="containerExtras">
-                                    <span>
-                                        {`${extra.name}(`}
-                                    </span>
-                                    <span className={Number(extra.price) !== 0 ? 'extra-price-span' : null}>
-                                        {`+${extra.price}`}
-                                    </span>
-                                    <span>{' kn)'}</span>
-                                    <input type="checkbox" checked={testResult} onChange={() => {
-                                        if (!testResult) {
-                                            addExtras(extra)
-                                            const currPrice = Number(mealTotalPrice) + Number(extra.price)
-                                            setMealTotalPrice(currPrice)
-                                        } else {
-                                            handleDeleteExtra(extra.id)
-                                        }
-                                    }} />
-                                    <span class="checkmarkExtra"></span>
-                                </label>
+                    <div className="d2-details">
+                        <div className="d3">
+                            <div className="d4">
+                                <div className="d5">
+                                {props.extras.map((extra) => {
+                                    const addedExtraIds = extras.map((extra) => extra.id) || []
+                                    const testResult = addedExtraIds.find((id) => id === extra.id)
+                                    return (
+                                        <div>
+                                            <label class="containerExtras">
+                                                <span>
+                                                    {`${extra.name}(`}
+                                                </span>
+                                                <span className={Number(extra.price) !== 0 ? 'extra-price-span' : null}>
+                                                    {`+${extra.price}`}
+                                                </span>
+                                                <span>{' kn)'}</span>
+                                                <input type="checkbox" checked={testResult} onChange={() => {
+                                                    if (!testResult) {
+                                                        addExtras(extra)
+                                                        const currPrice = Number(mealTotalPrice) + Number(extra.price)
+                                                        setMealTotalPrice(currPrice)
+                                                    } else {
+                                                        handleDeleteExtra(extra.id)
+                                                    }
+                                                }} />
+                                                <span class="checkmarkExtra"></span>
+                                            </label>
+                                        </div>
+                                    )
+                                })}
+                                </div>
                             </div>
-                        )
-                    })}
+                        </div>
+                    </div>
                 </div>
                 <div className="meal-summary">
                     <h5>Cijena sa dodacima: <span className="price-span">{mealTotalPrice}</span> <span>kn</span></h5>
                 </div>
                 <textarea className="textarea" placeholder="Unesite poruku (opcionalno)" value={note} onChange={(e) => { setNote(e.target.value) }}></textarea>
-                 <button className="btn-posalji margin-top margin-bottom btn-full-width">{mealToEdit ? 'Sačuvaj jelo' : 'Dodaj u narudžbu'}</button>
+                <button className="btn-posalji margin-top margin-bottom btn-full-width">{mealToEdit ? 'Sačuvaj jelo' : 'Dodaj u narudžbu'}</button>
             </form>
             <button className="btn-odustani btn-full-width" onClick={resetAll}>Odustani</button>
         </div>

@@ -28,12 +28,14 @@ const TableChange = (props) => {
 
         try {
             const data = await planplus.post('https://pp.doubleclick.hr/hr/users/login/', loginDetailsForSend)
-            if ('id' in data.data) {
-                const data2 = await planplus.post(`https://pp.doubleclick.hr/hr/orders/transfer/?table=${table}&user=${user}&password=${pass}`)
-                if (data2.data) {
+            
+          if ('id' in data.data) {
+              const data2 = await planplus.put(`https://pp.doubleclick.hr/hr/orders/transfer/?table=${table}&user=${user}&password=${pass}`)
+                console.log(data2)
+             if (data2.data.success) {
                     setSuccess(true)
-                }
-            }
+                }  
+            } 
         } catch {
             setUser('')
             setPass('')
@@ -46,7 +48,7 @@ const TableChange = (props) => {
             return props.history.goBack()
         } 
 
-        props.history.push(`/home`)
+        props.history.push(`/home/${props.user.id}`)
     }
 
     return (

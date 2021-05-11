@@ -10,20 +10,27 @@ const Home = (props) => {
     const [selectedTable, setSelectedTable] = React.useState('1')
     const [tables, setTables] = React.useState([])
 
-    React.useEffect(() => {
+    const planplus = axios.create({
+        baseURL: 'https://pp.doubleclick.hr',
+        auth: {
+            username: props.user.username,
+            password: props.user.password
+        }
+    })
 
+    React.useEffect(() => {
         const getTables = async () => {
-            const planplus = axios.create({
-                baseURL: 'https://pp.doubleclick.hr',
-                auth: {
-                    username: props.user.username,
-                    password: props.user.password
-                }
-            })
             const { data } = await planplus.get('https://pp.doubleclick.hr/hr/orders/tables/')
             setTables(data.results)
         }
-        getTables()
+        
+        const timer = setInterval(() => {
+            getTables()
+        }, 3000)
+
+        return () => {
+            clearInterval(timer)
+        }
     }, [])
 
     const onInputChange = (value) => {
